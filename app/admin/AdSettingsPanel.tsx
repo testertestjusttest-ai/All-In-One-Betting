@@ -4,79 +4,19 @@ import { useEffect, useState } from "react";
 import { supabase } from "../../lib/supabase";
 
 type Settings = {
-  id?: string;
-  enabled: boolean;
-  multitag_code: string;
-  vignette_code: string;
-  in_page_push_code: string;
-  tag_code_a: string;
-  tag_code_b: string;
-  direct_link: string;
+  id?: string; enabled: boolean; multitag_code: string; vignette_code: string; in_page_push_code: string;
+  tag_code_a: string; tag_code_b: string; direct_link: string;
+  multitag_enabled: boolean; vignette_enabled: boolean; in_page_push_enabled: boolean; tag_a_enabled: boolean; tag_b_enabled: boolean; direct_link_enabled: boolean;
 };
+const defaults: Settings = {enabled:true,multitag_code:"",vignette_code:"",in_page_push_code:"",tag_code_a:"",tag_code_b:"",direct_link:"",multitag_enabled:true,vignette_enabled:true,in_page_push_enabled:true,tag_a_enabled:true,tag_b_enabled:true,direct_link_enabled:true};
+const channels=[["multitag_code","multitag_enabled","MultiTag"],["vignette_code","vignette_enabled","Vignette Banner"],["in_page_push_code","in_page_push_enabled","In-Page Push"],["tag_code_a","tag_a_enabled","Additional Tag A"],["tag_code_b","tag_b_enabled","Additional Tag B"],["direct_link","direct_link_enabled","Direct Link"]] as const;
 
-const defaults: Settings = {
-  enabled: true,
-  multitag_code: "",
-  vignette_code: "",
-  in_page_push_code: "",
-  tag_code_a: "",
-  tag_code_b: "",
-  direct_link: ""
-};
-
-export default function AdSettingsPanel() {
-  const [form, setForm] = useState<Settings>(defaults);
-  const [message, setMessage] = useState("");
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    supabase.from("betbass_ad_settings").select("*").eq("provider","monetag").order("updated_at",{ascending:false}).limit(1).maybeSingle()
-      .then(({data,error}) => {
-        if (error) setMessage(error.message);
-        else if (data) setForm({
-          id:data.id, enabled:Boolean(data.enabled), multitag_code:data.multitag_code??"",
-          vignette_code:data.vignette_code??"", in_page_push_code:data.in_page_push_code??"",
-          tag_code_a:data.tag_code_a??"", tag_code_b:data.tag_code_b??"", direct_link:data.direct_link??""
-        });
-        setLoading(false);
-      });
-  }, []);
-
-  async function save() {
-    setMessage("Saving…");
-    const payload = {
-      provider:"monetag", enabled:form.enabled, multitag_code:form.multitag_code||null,
-      vignette_code:form.vignette_code||null, in_page_push_code:form.in_page_push_code||null,
-      tag_code_a:form.tag_code_a||null, tag_code_b:form.tag_code_b||null, direct_link:form.direct_link||null,
-      updated_at:new Date().toISOString()
-    };
-    const q=form.id
-      ? supabase.from("betbass_ad_settings").update(payload).eq("id",form.id)
-      : supabase.from("betbass_ad_settings").insert(payload);
-    const {error}=await q;
-    setMessage(error?.message ?? "Ad settings saved. Refresh the public site to reload ad scripts.");
-  }
-
-  const fields=[
-    ["multitag_code","MultiTag code"],
-    ["vignette_code","Vignette Banner code"],
-    ["in_page_push_code","In-Page Push code"],
-    ["tag_code_a","Additional tag — zone 11907043"],
-    ["tag_code_b","Additional tag — zone 11907045"],
-    ["direct_link","Direct Link URL"]
-  ] as const;
-
-  if (loading) return <section className="glass mt-6 rounded-3xl p-6">Loading ad settings…</section>;
-
-  return <section className="glass mt-6 rounded-3xl p-6">
-    <div className="flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
-      <div><p className="text-xs font-bold tracking-[.2em] text-cyan-300">MONETAG ADS</p><h2 className="mt-1 text-2xl font-bold">Ad manager</h2><p className="mt-1 text-sm text-white/40">Enable/disable the configured scripts without editing the site code.</p></div>
-      <label className="flex items-center gap-2 text-sm"><input type="checkbox" checked={form.enabled} onChange={e=>setForm({...form,enabled:e.target.checked})}/> Ads enabled</label>
-    </div>
-    <div className="mt-5 grid gap-4 lg:grid-cols-2">
-      {fields.map(([key,label])=><label key={key} className="block"><span className="mb-1 block text-xs text-white/40">{label}</span><textarea rows={key==="direct_link"?2:4} value={form[key]} onChange={e=>setForm({...form,[key]:e.target.value})} className="w-full rounded-xl border border-white/10 bg-white/5 px-3 py-2.5 text-xs font-mono outline-none focus:border-violet-400/40"/></label>)}
-    </div>
-    <button onClick={save} className="mt-5 rounded-2xl bg-white px-5 py-3 text-sm font-bold text-black">Save ad settings</button>
-    {message&&<p className="mt-3 text-sm text-white/50">{message}</p>}
-  </section>;
+export default function AdSettingsPanel(){
+ const [form,setForm]=useState<Settings>(defaults),[message,setMessage]=useState(""),[loading,setLoading]=useState(true);
+ useEffect(()=>{supabase.from("betbass_ad_settings").select("*").eq("provider","monetag").order("updated_at",{ascending:false}).limit(1).maybeSingle().then(({data,error})=>{
+   if(error)setMessage(error.message); else if(data)setForm({id:data.id,enabled:Boolean(data.enabled),multitag_code:data.multitag_code??"",vignette_code:data.vignette_code??"",in_page_push_code:data.in_page_push_code??"",tag_code_a:data.tag_code_a??"",tag_code_b:data.tag_code_b??"",direct_link:data.direct_link??"",multitag_enabled:data.multitag_enabled!==false,vignette_enabled:data.vignette_enabled!==false,in_page_push_enabled:data.in_page_push_enabled!==false,tag_a_enabled:data.tag_a_enabled!==false,tag_b_enabled:data.tag_b_enabled!==false,direct_link_enabled:data.direct_link_enabled!==false}); setLoading(false);
+ });},[]);
+ async function save(){setMessage("Saving…");const payload={provider:"monetag",enabled:form.enabled,multitag_code:form.multitag_code||null,vignette_code:form.vignette_code||null,in_page_push_code:form.in_page_push_code||null,tag_code_a:form.tag_code_a||null,tag_code_b:form.tag_code_b||null,direct_link:form.direct_link||null,multitag_enabled:form.multitag_enabled,vignette_enabled:form.vignette_enabled,in_page_push_enabled:form.in_page_push_enabled,tag_a_enabled:form.tag_a_enabled,tag_b_enabled:form.tag_b_enabled,direct_link_enabled:form.direct_link_enabled,updated_at:new Date().toISOString()};const q=form.id?supabase.from("betbass_ad_settings").update(payload).eq("id",form.id):supabase.from("betbass_ad_settings").insert(payload);const {error}=await q;setMessage(error?.message??"Ad settings saved.");}
+ if(loading)return <section className="glass mt-6 rounded-3xl p-6">Loading ad settings…</section>;
+ return <section className="glass mt-6 rounded-3xl p-6"><div className="flex flex-col gap-3 md:flex-row md:items-center md:justify-between"><div><p className="text-xs font-bold tracking-[.2em] text-cyan-300">MONETAG ADS</p><h2 className="mt-1 text-2xl font-bold">Ad manager</h2><p className="mt-1 text-sm text-white/40">Master switch plus individual on/off controls for all 6 ad channels.</p></div><label className="flex items-center gap-3 rounded-2xl border border-white/10 bg-white/5 px-4 py-3 text-sm font-bold"><input type="checkbox" checked={form.enabled} onChange={e=>setForm({...form,enabled:e.target.checked})}/> All ads {form.enabled?"ON":"OFF"}</label></div><div className="mt-5 grid gap-4 lg:grid-cols-2">{channels.map(([code,toggle,label])=><div key={code} className="rounded-2xl border border-white/10 bg-white/[.03] p-4"><div className="flex items-center justify-between gap-3"><div><p className="font-semibold">{label}</p><p className="mt-1 text-xs text-white/35">{form[code]?"Configured":"Not configured"}</p></div><label className="flex items-center gap-2 text-xs font-bold"><input type="checkbox" checked={form[toggle]} onChange={e=>setForm({...form,[toggle]:e.target.checked})}/>{form[toggle]?"ON":"OFF"}</label></div><textarea rows={code==="direct_link"?2:4} value={form[code]} onChange={e=>setForm({...form,[code]:e.target.value})} placeholder={code==="direct_link"?"Paste Direct Link URL":"Paste Monetag code"} className="mt-3 w-full rounded-xl border border-white/10 bg-black/20 px-3 py-2.5 text-xs font-mono outline-none focus:border-violet-400/40"/></div>)}</div><button onClick={save} className="mt-5 rounded-2xl bg-white px-5 py-3 text-sm font-bold text-black">Save ad settings</button>{message&&<p className="mt-3 text-sm text-white/50">{message}</p>}</section>;
 }
