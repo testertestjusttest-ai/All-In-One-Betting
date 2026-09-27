@@ -47,25 +47,46 @@ export default function MonetagAds({ placement = "inline" }: { placement?: Place
   }, []);
 
   const title = placement === "top" ? "Sponsored" : "Advertisement";
+
   return (
     <aside aria-label={title} className="mx-auto w-full max-w-7xl px-6 py-4">
-      <div className="overflow-hidden rounded-2xl border border-violet-400/15 bg-gradient-to-r from-violet-500/[.08] via-white/[.025] to-cyan-400/[.08] shadow-lg shadow-violet-950/10">
-        <div className="flex items-center justify-between border-b border-white/8 px-4 py-2">
-          <span className="text-[10px] font-bold uppercase tracking-[0.22em] text-white/35">{title}</span>
-          <span className="rounded-full border border-white/10 bg-black/10 px-2 py-0.5 text-[9px] text-white/30">Paid placement</span>
-        </div>
-        {directEnabled && directLink ? (
-          <a href={directLink} target="_blank" rel="nofollow sponsored noopener noreferrer"
-            className="block min-h-[92px] px-5 py-5 text-center transition hover:bg-white/[.04]">
-            <span className="text-xs font-semibold text-violet-200/70">Sponsored offer</span>
-            <span className="mt-1 block text-base font-black text-white sm:text-lg">Explore this promoted offer →</span>
-            <span className="mt-1 block text-[11px] text-white/35">Advertisement · External offer</span>
-          </a>
-        ) : (
-          <div className="flex min-h-[72px] items-center justify-center px-4 text-center text-[11px] text-white/25">
-            {loaded ? "Advertisement placement" : "Loading advertisement…"}
+      <div className="relative overflow-hidden rounded-3xl border border-violet-400/20 bg-gradient-to-br from-[#11102b] via-[#0c0c20] to-[#091b28] p-1 shadow-xl shadow-violet-950/20">
+        <div className="absolute -right-10 -top-10 h-28 w-28 rounded-full bg-violet-500/10 blur-3xl" />
+        <div className="absolute -bottom-10 -left-10 h-28 w-28 rounded-full bg-cyan-400/10 blur-3xl" />
+        <div className="relative rounded-[1.35rem] border border-white/8 bg-black/10 p-4 sm:p-5">
+          <div className="flex items-center justify-between gap-3">
+            <span className="rounded-full border border-violet-300/15 bg-violet-500/10 px-2.5 py-1 text-[9px] font-black uppercase tracking-[0.2em] text-violet-200/70">
+              {title}
+            </span>
+            <span className="text-[9px] uppercase tracking-[0.18em] text-white/25">Paid placement</span>
           </div>
-        )}
+
+          {directEnabled && directLink ? (
+            <a
+              href={directLink}
+              target="_blank"
+              rel="nofollow sponsored noopener noreferrer"
+              className="mt-3 block rounded-2xl border border-white/8 bg-white/[.035] p-4 transition hover:-translate-y-0.5 hover:bg-white/[.06] hover:border-violet-300/20"
+            >
+              <div className="flex items-center gap-3 sm:gap-4">
+                <div className="flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl border border-violet-300/15 bg-gradient-to-br from-violet-500/20 to-cyan-400/10 text-xl font-black text-violet-100 shadow-lg shadow-violet-950/20 sm:h-16 sm:w-16">
+                  AD
+                </div>
+                <div className="min-w-0 flex-1 text-left">
+                  <p className="text-[10px] font-bold uppercase tracking-[0.16em] text-violet-200/65">Sponsored offer</p>
+                  <h3 className="mt-1 line-clamp-2 text-base font-black text-white sm:text-lg">Explore this promoted offer</h3>
+                  <p className="mt-1 text-[11px] text-white/35">External advertisement · Sponsored link</p>
+                </div>
+                <span className="hidden shrink-0 rounded-xl bg-white px-4 py-2.5 text-xs font-black text-black sm:inline-block">Visit offer →</span>
+              </div>
+              <span className="mt-3 block rounded-xl bg-white px-4 py-2.5 text-center text-xs font-black text-black sm:hidden">Visit offer →</span>
+            </a>
+          ) : (
+            <div className="mt-3 flex min-h-[84px] items-center justify-center rounded-2xl border border-white/8 bg-white/[.025] px-4 text-center text-[11px] text-white/25">
+              {loaded ? "Advertisement placement" : "Loading advertisement…"}
+            </div>
+          )}
+        </div>
       </div>
     </aside>
   );
