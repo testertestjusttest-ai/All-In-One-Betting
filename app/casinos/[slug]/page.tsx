@@ -1,6 +1,6 @@
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
-import { supabase } from "../../../lib/supabase";
+import { supabase } from "../../../lib/supabase";\nimport MonetagAds from "../../components/MonetagAds";
 
 const siteUrl = "https://betbass.vercel.app";
 
@@ -94,7 +94,7 @@ export default async function CasinoPage({ params }: { params: Promise<{ slug: s
         </div>
       </section>
 
-      <section className="mt-6 glass rounded-3xl p-7 md:p-9">
+      <MonetagAds placement="inline" />\n      <section className="mt-6 glass rounded-3xl p-7 md:p-9">
         <h2 className="text-2xl font-black">About {casino.name}</h2>
         <p className="mt-4 whitespace-pre-line text-base leading-8 text-white/60">{intro}</p>
         {content && <div className="mt-6 border-t border-white/8 pt-6"><p className="whitespace-pre-line text-sm leading-7 text-white/55">{content}</p></div>}
@@ -105,7 +105,7 @@ export default async function CasinoPage({ params }: { params: Promise<{ slug: s
         <div className="glass rounded-3xl p-6"><h2 className="text-xl font-bold">{casino.name} availability</h2><p className="mt-3 text-sm text-white/55">Availability and product access can vary by country. Always confirm eligibility, local restrictions and current terms with the operator.</p><div className="mt-5 flex flex-wrap gap-2">{(countries.length ? countries : ["Market-specific"]).map((x: string) => <span key={x} className="rounded-full border border-white/10 bg-white/5 px-3 py-2 text-xs text-white/55">{x}</span>)}</div>{geoTargeting.length > 0 && <p className="mt-5 text-xs text-white/35">Configured GEO targets: {geoTargeting.join(", ")}</p>}</div>
       </section>
 
-      {related?.length ? <section className="mt-6 glass rounded-3xl p-6"><h2 className="text-xl font-bold">Related platforms</h2><div className="mt-5 grid gap-3 sm:grid-cols-2">{related.map((item: any) => <a key={item.slug} href={`/casinos/${item.slug}`} className="rounded-2xl border border-white/8 bg-white/[.03] p-4 transition hover:bg-white/[.06]"><p className="font-bold">{item.name}</p><p className="mt-1 text-xs text-white/40">{item.bonus_text || "View platform details"}</p></a>)}</div></section> : null}
+      <MonetagAds placement="bottom" />\n      {related?.length ? <section className="mt-6 glass rounded-3xl p-6"><h2 className="text-xl font-bold">Related platforms</h2><div className="mt-5 grid gap-3 sm:grid-cols-2">{related.map((item: any) => <a key={item.slug} href={`/casinos/${item.slug}`} className="rounded-2xl border border-white/8 bg-white/[.03] p-4 transition hover:bg-white/[.06]"><p className="font-bold">{item.name}</p><p className="mt-1 text-xs text-white/40">{item.bonus_text || "View platform details"}</p></a>)}</div></section> : null}
 
       <p className="mt-8 text-center text-xs leading-6 text-white/30">BetBass is an affiliate/comparison directory. We do not accept bets, hold player funds or process wagers. Offers can change; check the operator's current terms before participating.</p>
     </div>
