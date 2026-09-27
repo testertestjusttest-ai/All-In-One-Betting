@@ -42,7 +42,6 @@ export default async function Home() {
         <a href="/" className="text-2xl font-black tracking-tight">Bet<span className="gradient-text">Bass</span></a>
         <div className="hidden gap-7 text-sm text-white/65 md:flex"><a href="#directory" className="hover:text-white">Directory</a><a href="#compare" className="hover:text-white">Compare</a><a href="#faq" className="hover:text-white">FAQ</a></div>
         <div className="flex items-center gap-2">
-          <PWAInstall />
           <a href="/admin" className="rounded-full border border-white/15 bg-white/5 px-5 py-2 text-sm font-semibold hover:bg-white/10">Admin</a>
         </div>
       </nav>
