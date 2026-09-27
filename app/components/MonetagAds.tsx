@@ -17,7 +17,8 @@ function runScriptCode(code: string) {
 }
 
 export default function MonetagAds({ placement = "inline" }: { placement?: Placement }) {
-  const [directLink, setDirectLink] = useState("");
+  const FALLBACK_DIRECT_LINK = "https://omg10.com/4/11907049";
+  const [directLink, setDirectLink] = useState(FALLBACK_DIRECT_LINK);
   const [directEnabled, setDirectEnabled] = useState(false);
   const [loaded, setLoaded] = useState(false);
 
@@ -29,7 +30,7 @@ export default function MonetagAds({ placement = "inline" }: { placement?: Place
       .then(({ data }) => {
         if (cancelled) return;
         if (data) {
-          setDirectLink(typeof data.direct_link === "string" ? data.direct_link.trim() : "");
+          setDirectLink(typeof data.direct_link === "string" && data.direct_link.trim() ? data.direct_link.trim() : FALLBACK_DIRECT_LINK);
           setDirectEnabled(Boolean(data.direct_link_enabled));
           const codes = [
             [data.multitag_enabled, data.multitag_code],
