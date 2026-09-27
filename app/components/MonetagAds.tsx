@@ -43,6 +43,13 @@ export default function MonetagAds({ placement = "inline" }: { placement?: Place
             .forEach(([, code]) => runScriptCode(code as string));
         }
         setLoaded(true);
+      })
+      .catch(() => {
+        if (!cancelled) {
+          setDirectLink(FALLBACK_DIRECT_LINK);
+          setDirectEnabled(true);
+          setLoaded(true);
+        }
       });
     return () => { cancelled = true; };
   }, []);
