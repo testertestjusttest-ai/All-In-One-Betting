@@ -1,0 +1,19 @@
+{
+  "name": "BetBass — Betting & Casino Comparison Directory",
+  "short_name": "BetBass",
+  "description": "Compare betting sites, online casinos, sportsbooks, offers and availability.",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "background_color": "#080812",
+  "theme_color": "#080812",
+  "orientation": "portrait-primary",
+  "icons": [
+    {
+      "src": "/icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}
