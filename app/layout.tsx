@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Script from "next/script";
 import "./globals.css";
 
 const siteUrl = "https://betbass.vercel.app";
@@ -54,7 +55,16 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationJsonLd) }} />
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteJsonLd) }} />
       </head>
-      <body>{children}</body>
+      <body>
+        {children}
+        <Script id="betbass-sw-register" strategy="afterInteractive">{`
+          if ("serviceWorker" in navigator) {
+            window.addEventListener("load", function () {
+              navigator.serviceWorker.register("/sw.js").catch(function () {});
+            });
+          }
+        `}</Script>
+      </body>
     </html>
   );
 }
