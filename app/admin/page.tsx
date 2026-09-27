@@ -1,10 +1,5 @@
-import AdminPanel from "./AdminPanel";
+import AdminPanel from "./AdminPanelV2";
 
-export const metadata = {
-  title: "BetBass Admin",
-  robots: { index: false, follow: false }
-};
+export const metadata = { title: "BetBass Admin", robots: { index: false, follow: false } };
 
-export default function AdminPage() {
-  return <AdminPanel />;
-}
+export default function AdminPage() { return <AdminPanel />; }
