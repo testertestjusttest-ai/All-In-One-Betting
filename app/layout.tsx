@@ -16,5 +16,12 @@ export const metadata: Metadata = {
 };
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
-  return <html lang="en"><body>{children}</body></html>;
+  return (
+    <html lang="en">
+      <head>
+        <meta name="monetag" content="2fec36974dceb787f5c29afffa52ed9b" />
+      </head>
+      <body>{children}</body>
+    </html>
+  );
 }
