@@ -104,11 +104,7 @@ export default function CasinoDirectory({ casinos }: { casinos: Casino[] }) {
         </div>
         <div className="flex flex-col gap-3 sm:flex-row">
           <input value={query} onChange={e => setQuery(e.target.value)} placeholder="Search platforms..." className="w-full rounded-2xl border border-white/10 bg-white/5 px-4 py-3 outline-none placeholder:text-white/30 focus:border-violet-400/40 sm:w-64" />
-          <select value={type} onChange={e => setType(e.target.value)} className="rounded-2xl border border-white/10 bg-[#101024] px-4 py-3 outline-none"><option value="all">All types</option><option value="sportsbook">Sportsbook</option><option value="casino">Casino</option></select><select value={payment} onChange={e => setPayment(e.target.value)} className="rounded-2xl border border-white/10 bg-[#101024] px-4 py-3 outline-none"><option value="all">All payments</option><option value="bkash">bKash</option><option value="nagad">Nagad</option><option value="rocket">Rocket</option><option value="crypto">Crypto</option></select>{false && <select value={type} onChange={e => setType(e.target.value)} className="rounded-2xl border border-white/10 bg-[#101024] px-4 py-3 outline-none">
-            <option value="all">All types</option>
-            <option value="sportsbook">Sportsbook</option>
-            <option value="casino">Casino</option>
-          </select>
+          <select value={type} onChange={e => setType(e.target.value)} className="rounded-2xl border border-white/10 bg-[#101024] px-4 py-3 outline-none"><option value="all">All types</option><option value="sportsbook">Sportsbook</option><option value="casino">Casino</option></select><select value={payment} onChange={e => setPayment(e.target.value)} className="rounded-2xl border border-white/10 bg-[#101024] px-4 py-3 outline-none"><option value="all">All payments</option><option value="bkash">bKash</option><option value="nagad">Nagad</option><option value="rocket">Rocket</option><option value="crypto">Crypto</option></select>
         </div>
       </div>
 
