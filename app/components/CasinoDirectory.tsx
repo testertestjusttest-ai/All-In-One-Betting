@@ -11,7 +11,7 @@ type OfferCasino = Casino & {
   claim_label?: string | null;
   priority?: number;
   bangladesh_priority?: boolean;
-  public_rating?: number;
+  public_rating?: number;\n  deposit_methods?: string[];\n  withdrawal_methods?: string[];
 };
 
 const logoDomains: Record<string, string> = {
