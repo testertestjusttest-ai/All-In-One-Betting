@@ -10,7 +10,9 @@ function runScriptCode(code: string) {
   box.innerHTML = code;
   box.querySelectorAll("script").forEach((oldScript) => {
     const script = document.createElement("script");
-    for (const attr of Array.from(oldScript.attributes)) script.setAttribute(attr.name, oldScript.getAttribute(attr.name) ?? "");
+    for (const attr of Array.from(oldScript.attributes)) {
+      script.setAttribute(attr.name, oldScript.getAttribute(attr.name) ?? "");
+    }
     script.text = oldScript.textContent ?? "";
     document.body.appendChild(script);
   });
@@ -24,14 +26,30 @@ export default function MonetagAds({ placement = "inline" }: { placement?: Place
 
   useEffect(() => {
     let cancelled = false;
-    supabase.from("betbass_ad_settings")
-      .select("enabled,multitag_code,vignette_code,in_page_push_code,tag_code_a,tag_code_b,direct_link,multitag_enabled,vignette_enabled,in_page_push_enabled,tag_a_enabled,tag_b_enabled,direct_link_enabled")
-      .eq("provider", "monetag").eq("enabled", true).order("updated_at", { ascending: false }).limit(1).maybeSingle()
+
+    Promise.resolve(
+      supabase
+        .from("betbass_ad_settings")
+        .select(
+          "enabled,multitag_code,vignette_code,in_page_push_code,tag_code_a,tag_code_b,direct_link,multitag_enabled,vignette_enabled,in_page_push_enabled,tag_a_enabled,tag_b_enabled,direct_link_enabled",
+        )
+        .eq("provider", "monetag")
+        .eq("enabled", true)
+        .order("updated_at", { ascending: false })
+        .limit(1)
+        .maybeSingle(),
+    )
       .then(({ data }) => {
         if (cancelled) return;
+
         if (data) {
-          setDirectLink(typeof data.direct_link === "string" && data.direct_link.trim() ? data.direct_link.trim() : FALLBACK_DIRECT_LINK);
+          setDirectLink(
+            typeof data.direct_link === "string" && data.direct_link.trim()
+              ? data.direct_link.trim()
+              : FALLBACK_DIRECT_LINK,
+          );
           setDirectEnabled(Boolean(data.direct_link_enabled) || Boolean(data.direct_link));
+
           const codes = [
             [data.multitag_enabled, data.multitag_code],
             [data.vignette_enabled, data.vignette_code],
@@ -39,9 +57,12 @@ export default function MonetagAds({ placement = "inline" }: { placement?: Place
             [data.tag_a_enabled, data.tag_code_a],
             [data.tag_b_enabled, data.tag_code_b],
           ];
-          codes.filter(([on, code]) => on && typeof code === "string" && code.trim())
+
+          codes
+            .filter(([on, code]) => on && typeof code === "string" && code.trim())
             .forEach(([, code]) => runScriptCode(code as string));
         }
+
         setLoaded(true);
       })
       .catch(() => {
@@ -51,7 +72,10 @@ export default function MonetagAds({ placement = "inline" }: { placement?: Place
           setLoaded(true);
         }
       });
-    return () => { cancelled = true; };
+
+    return () => {
+      cancelled = true;
+    };
   }, []);
 
   const title = placement === "top" ? "Sponsored" : "Advertisement";
