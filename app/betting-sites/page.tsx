@@ -1,2 +1,4 @@
-import { notFound } from "next/navigation";
-export default function Page(){notFound()}
+import type { Metadata } from "next";
+import { categoryMetadata, renderCategory } from "../components/CategoryPage";
+export const metadata: Metadata = categoryMetadata("betting-sites");
+export default function Page(){return renderCategory("betting-sites");}
