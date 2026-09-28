@@ -11,7 +11,9 @@ type OfferCasino = Casino & {
   claim_label?: string | null;
   priority?: number;
   bangladesh_priority?: boolean;
-  public_rating?: number;\n  deposit_methods?: string[];\n  withdrawal_methods?: string[];
+  public_rating?: number;
+  deposit_methods?: string[];
+  withdrawal_methods?: string[];
 };
 
 const logoDomains: Record<string, string> = {
@@ -67,6 +69,7 @@ export default function CasinoDirectory({ casinos }: { casinos: Casino[] }) {
   const [type, setType] = useState("all");
   const [payment, setPayment] = useState("all");
   const [compare, setCompare] = useState<string[]>([]);
+  const [compareOpen, setCompareOpen] = useState(false);
 
   const filtered = useMemo(
     () =>
@@ -183,7 +186,9 @@ export default function CasinoDirectory({ casinos }: { casinos: Casino[] }) {
                 </div>
               )}
 
-              <div className="mt-3 flex items-center justify-between gap-2 sm:mt-4"><button type="button" onClick={e => { e.stopPropagation(); toggleCompare(casino.id); }} className={`rounded-full border px-2.5 py-1 text-[10px] font-semibold ${compare.includes(casino.id) ? "border-violet-400/50 bg-violet-400/15 text-violet-200" : "border-white/10 bg-white/5 text-white/45"}`}>{compare.includes(casino.id) ? "✓ Comparing" : "＋ Compare"}</button>{casino.verified_at && <span className="text-[10px] text-emerald-300/70">✓ Listed data verified</span>}</div>\n\n              <div className="mt-3 flex flex-wrap gap-1 sm:mt-4 sm:gap-2">
+              <div className="mt-3 flex items-center justify-between gap-2 sm:mt-4"><button type="button" onClick={e => { e.stopPropagation(); toggleCompare(casino.id); }} className={`rounded-full border px-2.5 py-1 text-[10px] font-semibold ${compare.includes(casino.id) ? "border-violet-400/50 bg-violet-400/15 text-violet-200" : "border-white/10 bg-white/5 text-white/45"}`}>{compare.includes(casino.id) ? "✓ Comparing" : "＋ Compare"}</button>{casino.verified_at && <span className="text-[10px] text-emerald-300/70">✓ Listed data verified</span>}</div>
+
+              <div className="mt-3 flex flex-wrap gap-1 sm:mt-4 sm:gap-2">
                 {casino.tags.slice(0, 3).map(tag => <span key={tag} className="max-w-full truncate rounded-full border border-white/8 bg-white/4 px-2 py-1 text-[9px] text-white/50 sm:px-2.5 sm:text-[11px]">{tag}</span>)}
               </div>
 
@@ -195,7 +200,50 @@ export default function CasinoDirectory({ casinos }: { casinos: Casino[] }) {
         })}
       </div>
 
-      {!filtered.length && <div className="glass rounded-3xl p-12 text-center text-white/50">No platforms match your search.</div>}\n\n      {compare.length > 0 && (\n        <aside className="fixed inset-x-3 bottom-3 z-40 mx-auto max-w-4xl rounded-3xl border border-violet-400/20 bg-[#101024]/95 p-4 shadow-2xl backdrop-blur-xl">\n          <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between"><div><p className="text-xs font-bold uppercase tracking-wider text-violet-300">Compare shortlist</p><p className="mt-1 text-sm text-white/55">{compare.length}/3 platforms selected</p></div><div className="flex flex-wrap gap-2">{compare.map(id => { const x=casinos.find(item=>item.id===id) as OfferCasino | undefined; return x ? <span key={id} className="rounded-full bg-white/5 px-3 py-1.5 text-xs">{x.name}</span> : null; })}<button type="button" onClick={() => setCompare([])} className="rounded-full border border-white/10 px-3 py-1.5 text-xs text-white/50">Clear</button></div></div>\n        </aside>\n      )}
+      {!filtered.length && <div className="glass rounded-3xl p-12 text-center text-white/50">No platforms match your search.</div>}
+
+      {compare.length > 0 && (
+        <>
+          <aside className="fixed inset-x-3 bottom-3 z-40 mx-auto max-w-4xl rounded-3xl border border-violet-400/20 bg-[#101024]/95 p-4 shadow-2xl backdrop-blur-xl">
+            <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+              <div><p className="text-xs font-bold uppercase tracking-wider text-violet-300">Compare shortlist</p><p className="mt-1 text-sm text-white/55">{compare.length}/3 platforms selected</p></div>
+              <div className="flex flex-wrap gap-2">
+                {compareItems.map(x => <span key={x.id} className="rounded-full bg-white/5 px-3 py-1.5 text-xs">{x.name}</span>)}
+                <button type="button" onClick={() => setCompareOpen(true)} className="rounded-full bg-white px-4 py-1.5 text-xs font-bold text-black">Compare now</button>
+                <button type="button" onClick={() => setCompare([])} className="rounded-full border border-white/10 px-3 py-1.5 text-xs text-white/50">Clear</button>
+              </div>
+            </div>
+          </aside>
+          {compareOpen && (
+            <div className="fixed inset-0 z-50 overflow-y-auto bg-black/75 p-4 backdrop-blur-sm" role="dialog" aria-modal="true" aria-label="Compare platforms">
+              <div className="mx-auto my-6 max-w-6xl rounded-[2rem] border border-white/10 bg-[#0c0c1a] p-5 shadow-2xl sm:p-8">
+                <div className="flex items-start justify-between gap-4">
+                  <div><p className="text-xs font-bold uppercase tracking-wider text-violet-300">Side-by-side comparison</p><h2 className="mt-2 text-3xl font-black">Compare selected platforms</h2><p className="mt-2 text-sm text-white/45">Only information currently listed in BetBass is shown.</p></div>
+                  <button type="button" onClick={() => setCompareOpen(false)} className="rounded-full border border-white/10 px-3 py-2 text-sm text-white/60">Close</button>
+                </div>
+                <div className="mt-7 grid gap-4 md:grid-cols-3">
+                  {compareItems.map(item => {
+                    const payments = [...(item.payment_methods ?? []), ...(item.deposit_methods ?? []), ...(item.withdrawal_methods ?? [])].filter((v, idx, arr) => arr.indexOf(v) === idx);
+                    return (
+                      <article key={item.id} className="rounded-3xl border border-white/10 bg-white/5 p-5">
+                        <div className="flex items-center gap-3"><div className="flex h-12 w-12 items-center justify-center rounded-xl bg-white p-1"><img src={logoFor(item)} alt="" className="h-full w-full object-contain" /></div><div className="min-w-0"><h3 className="break-words font-bold">{item.name}</h3><p className="text-[10px] uppercase text-white/35">{item.operator_type === "both" ? "Sportsbook + Casino" : item.operator_type}</p></div></div>
+                        <dl className="mt-5 space-y-3 text-sm">
+                          <div><dt className="text-xs text-white/35">Rating</dt><dd className="mt-1 font-bold text-yellow-200">★ {Number(item.public_rating ?? 0).toFixed(1)}/5</dd></div>
+                          <div><dt className="text-xs text-white/35">Offer</dt><dd className="mt-1 text-white/70">{item.bonus_text || (item.bonus_percent != null ? `${item.bonus_percent}% ${item.bonus_type ?? "welcome"} bonus` : "Not listed")}</dd></div>
+                          <div><dt className="text-xs text-white/35">Payments</dt><dd className="mt-1 text-white/70">{payments.length ? payments.join(", ") : "Not listed"}</dd></div>
+                          <div><dt className="text-xs text-white/35">License</dt><dd className="mt-1 text-white/70">{item.license_text || "Not listed"}</dd></div>
+                          <div><dt className="text-xs text-white/35">Countries / GEO</dt><dd className="mt-1 text-white/70">{item.countries?.length ? item.countries.join(", ") : "Not listed"}</dd></div>
+                        </dl>
+                        {item.affiliate_url ? <button type="button" onClick={() => void trackAndOpen(item)} className="mt-6 w-full rounded-2xl bg-white px-4 py-3 text-sm font-bold text-black">Open affiliate offer</button> : <div className="mt-6 rounded-2xl border border-white/10 px-4 py-3 text-center text-xs text-white/35">Affiliate link not configured</div>}
+                      </article>
+                    );
+                  })}
+                </div>
+              </div>
+            </div>
+          )}
+        </>
+      )}
     </>
   );
 }
