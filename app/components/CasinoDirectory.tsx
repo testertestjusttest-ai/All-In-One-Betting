@@ -3,7 +3,6 @@
 import { motion } from "framer-motion";
 import { useMemo, useState } from "react";
 import type { Casino } from "../../lib/supabase";
-import MonetagAds from "./MonetagAds";
 
 type OfferCasino=Casino&{bonus_percent?:number|null;bonus_type?:string|null;currency?:string|null;claim_label?:string|null;priority?:number;bangladesh_priority?:boolean;public_rating?:number};
 function initials(name:string){return name.split(/\s+/).slice(0,2).map(x=>x[0]).join("").toUpperCase();}
@@ -24,7 +23,7 @@ export default function CasinoDirectory({casinos}:{casinos:Casino[]}){
  <div className="mt-3 flex flex-wrap gap-1 sm:mt-4 sm:gap-2">{casino.tags.slice(0,3).map(tag=><span key={tag} className="max-w-full truncate rounded-full border border-white/8 bg-white/4 px-2 py-1 text-[9px] text-white/50 sm:px-2.5 sm:text-[11px]">{tag}</span>)}</div>
  <div className="mt-3 grid grid-cols-1 gap-2 sm:mt-5 sm:grid-cols-2"><a href={"/casinos/"+casino.slug} className="rounded-xl border border-white/10 px-2 py-2.5 text-center text-xs font-semibold hover:bg-white/5 sm:rounded-2xl sm:px-4 sm:py-3 sm:text-sm">Details</a><button onClick={()=>track(casino)} disabled={!casino.affiliate_url} className="rounded-xl bg-white px-2 py-2.5 text-xs font-bold text-black disabled:cursor-not-allowed disabled:opacity-30 sm:rounded-2xl sm:px-4 sm:py-3 sm:text-sm">{casino.affiliate_url?(casino.claim_label||"Claim offer"):(casino.bonus_text||casino.bonus_percent!=null?"Claim offer":"Join now")}</button></div>
  </motion.article>
- {(i+1)%2===0&&<div className="col-span-2"><MonetagAds placement="inline"/></div>}
+
  </div>})}
  </div>{!filtered.length&&<div className="glass rounded-3xl p-12 text-center text-white/50">No platforms match your search.</div>}</>;
 }
