@@ -60,7 +60,7 @@ function dataCompleteness(casino: OfferCasino) {
     Boolean(casino.short_description),
     Boolean(casino.bonus_text || casino.bonus_percent != null),
     Boolean(casino.payment_methods?.length || casino.deposit_methods?.length || casino.withdrawal_methods?.length),
-    Boolean(casino.countries?.length || casino.geo_codes?.length),
+    Boolean(casino.countries?.length),
     Boolean(casino.license_text),
     Boolean(casino.verified_at)
   ];
