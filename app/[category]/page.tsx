@@ -4,6 +4,8 @@ import { categoryConfig, categoryMetadata, renderCategory, type CategoryKey } fr
 
 const categories = Object.keys(categoryConfig) as CategoryKey[];
 
+export const dynamicParams = false;
+
 export function generateStaticParams() {
   return categories.map((category) => ({ category }));
 }
