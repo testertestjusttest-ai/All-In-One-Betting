@@ -50,7 +50,9 @@ export default async function CasinoPage({ params }: { params: Promise<{ slug: s
   if (!casino) notFound();
 
   const related = await getRelated(casino);
-  const logoUrl = casino.logo_url || (casino.website_url ? `https://www.google.com/s2/favicons?domain=${encodeURIComponent(new URL(casino.website_url).hostname.replace(/^www\\./, ""))}&sz=128` : null);\n\n  const categories = casino.operator_type === "casino"
+  const logoUrl = casino.logo_url || (casino.website_url ? `https://www.google.com/s2/favicons?domain=${encodeURIComponent(new URL(casino.website_url).hostname.replace(/^www\\./, ""))}&sz=128` : null);
+
+  const categories = casino.operator_type === "casino"
     ? [["Online Casinos", "/online-casinos"], ["Casino Bonuses", "/casino-bonuses"]]
     : casino.operator_type === "sportsbook"
       ? [["Betting Sites", "/betting-sites"], ["Sportsbooks", "/sportsbooks"], ["Betting Bonuses", "/betting-bonuses"]]
