@@ -11,6 +11,19 @@ async function getCasino(slug: string) {
   return data;
 }
 
+async function getRelated(casino: any) {
+  const { data } = await supabase
+    .from("betbass_casinos")
+    .select("id,name,slug,operator_type,short_description,priority,bangladesh_priority")
+    .eq("active", true)
+    .neq("id", casino.id)
+    .order("priority", { ascending: true })
+    .order("bangladesh_priority", { ascending: false })
+    .order("name", { ascending: true })
+    .limit(6);
+  return data ?? [];
+}
+
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
   const { slug } = await params;
   const casino = await getCasino(slug);
@@ -36,6 +49,13 @@ export default async function CasinoPage({ params }: { params: Promise<{ slug: s
   const casino = await getCasino(slug);
   if (!casino) notFound();
 
+  const related = await getRelated(casino);
+  const categories = casino.operator_type === "casino"
+    ? [["Online Casinos", "/online-casinos"], ["Casino Bonuses", "/casino-bonuses"]]
+    : casino.operator_type === "sportsbook"
+      ? [["Betting Sites", "/betting-sites"], ["Sportsbooks", "/sportsbooks"], ["Betting Bonuses", "/betting-bonuses"]]
+      : [["Betting Sites", "/betting-sites"], ["Online Casinos", "/online-casinos"], ["Sportsbooks", "/sportsbooks"]];
+
   const breadcrumbJsonLd = {
     "@context": "https://schema.org",
     "@type": "BreadcrumbList",
@@ -45,9 +65,20 @@ export default async function CasinoPage({ params }: { params: Promise<{ slug: s
     ]
   };
 
+  const webPageJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "WebPage",
+    name: casino.seo_title || `${casino.name} — Betting & Casino Platform`,
+    description: casino.seo_description || casino.short_description || "",
+    url: `${siteUrl}/casinos/${casino.slug}`,
+    isPartOf: { "@type": "WebSite", name: "BetBass", url: siteUrl },
+    mainEntity: { "@type": "Thing", name: casino.name }
+  };
+
   return (
     <main className="min-h-screen px-6 py-10">
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(webPageJsonLd) }} />
       <div className="mx-auto max-w-5xl">
         <a href="/" className="text-sm text-white/45 hover:text-white">← Back to BetBass</a>
 
@@ -68,6 +99,10 @@ export default async function CasinoPage({ params }: { params: Promise<{ slug: s
         </section>
 
         <MonetagAds placement="inline" />
+
+        <nav aria-label="Platform categories" className="mt-5 flex flex-wrap gap-2">
+          {categories.map(([label, href]) => <a key={href} href={href} className="rounded-full border border-white/10 bg-white/5 px-3 py-2 text-xs font-semibold text-white/60 hover:text-white">{label}</a>)}
+        </nav>
 
         <div className="mt-6 grid gap-6 md:grid-cols-2">
           <section className="glass rounded-3xl p-7">
@@ -93,8 +128,22 @@ export default async function CasinoPage({ params }: { params: Promise<{ slug: s
           <h2 className="text-2xl font-black">About {casino.name}</h2>
           <p className="mt-4 leading-7 text-white/60">{casino.seo_intro || casino.short_description}</p>
           {casino.seo_content && <div className="mt-5 whitespace-pre-line leading-7 text-white/55">{casino.seo_content}</div>}
+          <div className="mt-6 rounded-2xl border border-white/10 bg-white/5 p-5">
+            <h3 className="font-bold">How to research {casino.name} on BetBass</h3>
+            <p className="mt-2 text-sm leading-6 text-white/55">Use the information on this profile to review the operator category, listed payment information, GEO notes and any publisher-provided offer details. Availability and terms can vary by country and can change over time, so verify current conditions before using an operator.</p>
+          </div>
           <p className="mt-6 text-xs leading-5 text-white/35">Offers, licensing, eligibility, payment methods and country availability can change. Verify the current terms with the operator before using any service.</p>
         </section>
+
+        {related.length > 0 && (
+          <section className="mt-6 glass rounded-3xl p-7">
+            <h2 className="text-2xl font-black">Related platforms</h2>
+            <p className="mt-2 text-sm text-white/45">Explore more platforms in the BetBass directory.</p>
+            <div className="mt-5 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+              {related.map((item:any) => <a key={item.id} href={`/casinos/${item.slug}`} className="rounded-2xl border border-white/10 bg-white/5 p-4 hover:bg-white/10"><div className="font-bold">{item.name}</div><div className="mt-1 text-xs uppercase text-white/35">{item.operator_type === "both" ? "Sportsbook + Casino" : item.operator_type}</div><p className="mt-2 line-clamp-2 text-xs leading-5 text-white/45">{item.short_description}</p></a>)}
+            </div>
+          </section>
+        )}
 
         <MonetagAds placement="bottom" />
       </div>
