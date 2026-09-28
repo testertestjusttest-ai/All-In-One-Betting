@@ -94,6 +94,8 @@ export default function CasinoDirectory({ casinos }: { casinos: Casino[] }) {
     [casinos, query, type, payment]
   );
 
+  const compareItems = useMemo(() => filtered.filter(item => compare.includes(item.id)), [filtered, compare]);
+
   function toggleCompare(id: string) {
     setCompare(current => current.includes(id) ? current.filter(x => x !== id) : current.length < 3 ? [...current, id] : current);
   }
