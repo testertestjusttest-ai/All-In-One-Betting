@@ -54,6 +54,19 @@ function logoFor(casino: Casino) {
   return domain ? `https://www.google.com/s2/favicons?domain=${encodeURIComponent(domain)}&sz=128` : null;
 }
 
+function dataCompleteness(casino: OfferCasino) {
+  const checks = [
+    Boolean(casino.logo_url || casino.website_url),
+    Boolean(casino.short_description),
+    Boolean(casino.bonus_text || casino.bonus_percent != null),
+    Boolean(casino.payment_methods?.length || casino.deposit_methods?.length || casino.withdrawal_methods?.length),
+    Boolean(casino.countries?.length || casino.geo_codes?.length),
+    Boolean(casino.license_text),
+    Boolean(casino.verified_at)
+  ];
+  return Math.round((checks.filter(Boolean).length / checks.length) * 100);
+}
+
 function sortCasinos(casinos: OfferCasino[]) {
   return [...casinos].sort(
     (a, b) =>
@@ -105,17 +118,20 @@ export default function CasinoDirectory({ casinos }: { casinos: Casino[] }) {
           <h2 className="mt-2 text-3xl font-black">Betting & casino platforms</h2>
           <p className="mt-2 text-white/45">Search, filter and compare platforms by the information currently listed on BetBass.</p>
         </div>
-        <div className="flex flex-col gap-3 sm:flex-row">
+        <div className="flex flex-col gap-3 sm:flex-row lg:min-w-[36rem]">
           <input value={query} onChange={e => setQuery(e.target.value)} placeholder="Search platforms..." className="w-full rounded-2xl border border-white/10 bg-white/5 px-4 py-3 outline-none placeholder:text-white/30 focus:border-violet-400/40 sm:w-64" />
           <select value={type} onChange={e => setType(e.target.value)} className="rounded-2xl border border-white/10 bg-[#101024] px-4 py-3 outline-none"><option value="all">All types</option><option value="sportsbook">Sportsbook</option><option value="casino">Casino</option></select><select value={payment} onChange={e => setPayment(e.target.value)} className="rounded-2xl border border-white/10 bg-[#101024] px-4 py-3 outline-none"><option value="all">All payments</option><option value="bkash">bKash</option><option value="nagad">Nagad</option><option value="rocket">Rocket</option><option value="crypto">Crypto</option></select>
         </div>
       </div>
+
+      <div className="mb-4 flex items-center justify-between gap-3 rounded-2xl border border-white/10 bg-white/5 px-4 py-3"><p className="text-xs text-white/45">{filtered.length} platform{filtered.length === 1 ? "" : "s"} shown</p>{(query || type !== "all" || payment !== "all") && <button type="button" onClick={() => { setQuery(""); setType("all"); setPayment("all"); }} className="rounded-full border border-white/10 px-3 py-1.5 text-xs font-semibold text-white/60 hover:text-white">Clear filters</button>}</div>
 
       <div className="grid grid-cols-2 gap-3 sm:gap-5 lg:grid-cols-2">
         {filtered.map((casino, i) => {
           const rating = Number(casino.public_rating ?? 0);
           const logoUrl = logoFor(casino);
           const hasAffiliate = Boolean(casino.affiliate_url);
+          const completeness = dataCompleteness(casino);
 
           return (
             <motion.article
@@ -174,6 +190,8 @@ export default function CasinoDirectory({ casinos }: { casinos: Casino[] }) {
               </div>
 
               <p className="mt-3 line-clamp-3 min-h-[3.75rem] text-xs leading-5 text-white/55 sm:mt-4 sm:text-sm sm:leading-6">{casino.short_description}</p>
+
+              <div className="mt-3"><div className="flex items-center justify-between text-[10px] text-white/35"><span>Profile data coverage</span><span>{completeness}%</span></div><div className="mt-1 h-1.5 overflow-hidden rounded-full bg-white/10"><div className="h-full rounded-full bg-violet-400/70" style={{ width: `${completeness}%` }} /></div></div>
 
               {(casino.bonus_text || casino.bonus_percent != null) && (
                 <div className="mt-3 rounded-xl bg-white/5 p-2.5 sm:mt-5 sm:rounded-2xl sm:p-4">
