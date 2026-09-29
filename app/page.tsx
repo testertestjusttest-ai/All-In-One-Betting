@@ -6,6 +6,7 @@ import MonetagAds from "./components/MonetagAds";
 import PWAInstall from "./components/PWAInstall";
 import TrustDisclosure from "./components/TrustDisclosure";
 import PlatformSlider from "./components/PlatformSlider";
+import PlatformSlider from "./components/PlatformSlider";
 
 export const revalidate = 300;
 
@@ -114,26 +115,7 @@ export default async function Home() {
         <a href="#directory" className="explore-pill"><span className="explore-icon">⌕</span>Explore</a>
       </nav>
 
-      <section className="platform-starter mx-auto max-w-7xl px-5 pt-4 sm:px-6" aria-label="Top casinos and betting platforms">
-        <div className="platform-starter-head">
-          <div><p className="section-kicker"><span className="section-flame">◆</span> TOP CASINOS & PLATFORMS</p></div>
-          <a href="#directory">View all <span>→</span></a>
-        </div>
-        <div className="platform-slider">
-          <div className="platform-track">
-            {[...casinos.slice(0, 8), ...casinos.slice(0, 8)].map((casino:any, index:number) => (
-              <a key={casino.slug + "-" + index} href={"/casinos/" + casino.slug} className="platform-chip">
-                <span className="platform-chip-logo">
-                  {casino.logo_url ? <img src={casino.logo_url} alt="" loading="lazy" /> : <span>{String(casino.name || "B").slice(0,1).toUpperCase()}</span>}
-                </span>
-                <span><strong>{casino.name}</strong><small>{casino.category === "both" ? "Betting + Casino" : casino.category || "Platform"}</small></span>
-                <b>↗</b>
-              </a>
-            ))}
-          </div>
-        </div>
-        <div className="slider-dots" aria-hidden="true"><i className="active" /><i /><i /><i /><i /></div>
-      </section>
+      <PlatformSlider casinos={casinos} />
 
       <section className="hero-shell mx-auto max-w-7xl px-5 pb-10 pt-6 sm:px-6 md:pb-16 md:pt-9">
         <div className="hero-grid">
