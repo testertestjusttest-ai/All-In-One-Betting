@@ -46,17 +46,6 @@ async function getCasinos() {
   return data ?? [];
 }
 
-function platformLogo(casino: any) {
-  if (casino.logo_url) return casino.logo_url;
-  if (casino.website_url) {
-    try {
-      const domain = new URL(casino.website_url).hostname.replace(/^www\./, "");
-      return "https://www.google.com/s2/favicons?domain=" + encodeURIComponent(domain) + "&sz=128";
-    } catch {}
-  }
-  return null;
-}
-
 function getCountryStats(casinos: any[]) {
   const counts = new Map<string, number>();
   for (const casino of casinos) {
@@ -107,7 +96,7 @@ export default async function Home() {
         <a href="#directory" className="explore-pill"><span className="explore-icon">⌕</span>Explore</a>
       </nav>
 
-      <PlatformSlider casinos={casinos.map((casino) => ({ ...casino, logo_url: platformLogo(casino) }))} />
+      <PlatformSlider casinos={casinos} />
 
       <section className="hero-shell mx-auto max-w-7xl px-5 pb-10 pt-6 sm:px-6 md:pb-16 md:pt-9">
         <div className="hero-grid">
