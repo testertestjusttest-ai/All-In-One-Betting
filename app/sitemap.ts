@@ -8,7 +8,7 @@ const informational = ["about","privacy","terms","responsible-gambling"];
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const { data } = await supabase
     .from("betbass_casinos")
-    .select("slug,updated_at,seo_noindex,priority")
+    .select("slug,updated_at,seo_noindex,priority,geo_codes,geo_targeting")
     .eq("active", true);
 
   const now = new Date();
@@ -17,8 +17,23 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     .reduce((latest, value) => Math.max(latest, value), 0);
   const contentLastModified = latestPlatformUpdate ? new Date(latestPlatformUpdate) : now;
 
+  const countryCodes = [...new Set(
+    (data ?? [])
+      .flatMap((item) => [...(item.geo_codes ?? []), ...(item.geo_targeting ?? [])])
+      .map((code) => String(code).toUpperCase())
+      .filter(Boolean)
+  )];
+
   return [
     { url: base, lastModified: contentLastModified, changeFrequency: "daily", priority: 1 },
+    { url: `${base}/bn`, lastModified: contentLastModified, changeFrequency: "weekly", priority: 0.7 },
+    { url: `${base}/countries`, lastModified: contentLastModified, changeFrequency: "weekly", priority: 0.8 },
+    ...countryCodes.map((code) => ({
+      url: `${base}/countries/${code.toLowerCase()}`,
+      lastModified: contentLastModified,
+      changeFrequency: "weekly" as const,
+      priority: 0.8
+    })),
     ...informational.map(slug => ({ url: `${base}/${slug}`, lastModified: now, changeFrequency: "monthly" as const, priority: 0.5 })),
     ...categories.map(category => ({
       url: `${base}/${category}`,
