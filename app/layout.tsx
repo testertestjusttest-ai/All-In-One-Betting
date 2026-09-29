@@ -18,7 +18,14 @@ export const metadata: Metadata = {
   ],
   applicationName: "BetBass",
   category: "entertainment",
-  alternates: { canonical: "/" },
+  alternates: {
+    canonical: "/",
+    languages: {
+      "en-US": siteUrl,
+      "bn-BD": `${siteUrl}/bn`,
+      "x-default": siteUrl
+    }
+  },
   robots: { index: true, follow: true, googleBot: { index: true, follow: true, "max-image-preview": "large", "max-snippet": -1, "max-video-preview": -1 } },
   openGraph: {
     title: "BetBass — Betting & Casino Comparison Directory",
