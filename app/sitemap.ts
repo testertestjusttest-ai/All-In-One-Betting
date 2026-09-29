@@ -8,7 +8,7 @@ const informational = ["about","privacy","terms","responsible-gambling"];
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const { data } = await supabase
     .from("betbass_casinos")
-    .select("slug,updated_at,seo_noindex,priority,geo_codes,geo_targeting")
+    .select("slug,updated_at,seo_noindex,priority,geo_codes,geo_targeting,affiliate_url,website_url,verified_at,seo_content")
     .eq("active", true);
 
   const now = new Date();
