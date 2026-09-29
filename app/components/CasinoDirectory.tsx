@@ -3,7 +3,7 @@
 import { motion } from "framer-motion";
 import { useMemo, useState } from "react";
 import type { Casino } from "../../lib/supabase";
-import { casinoLogoUrl, initials } from "../../lib/casinoLogo";
+import { casinoLogoUrl, initials } from "../lib/casinoLogo";
 
 type OfferCasino = Casino & {
   bonus_percent?: number | null;
@@ -215,7 +215,7 @@ export default function CasinoDirectory({ casinos }: { casinos: Casino[] }) {
                     const payments = [...(item.payment_methods ?? []), ...(item.deposit_methods ?? []), ...(item.withdrawal_methods ?? [])].filter((v, idx, arr) => arr.indexOf(v) === idx);
                     return (
                       <article key={item.id} className="rounded-3xl border border-white/10 bg-white/5 p-5">
-                        <div className="flex items-center gap-3"><div className="flex h-12 w-12 items-center justify-center rounded-xl bg-white p-1">{logoFor(item) ? <img src={logoFor(item)!} alt={`${item.name} logo`} className="h-full w-full object-contain" /> : <span className="bg-gradient-to-br from-violet-500 to-cyan-400 bg-clip-text text-base font-black text-transparent">{initials(item.name)}</span>}</div><div className="min-w-0"><h3 className="break-words font-bold">{item.name}</h3><p className="text-[10px] uppercase text-white/35">{item.operator_type === "both" ? "Sportsbook + Casino" : item.operator_type}</p></div></div>
+                        <div className="flex items-center gap-3"><div className="flex h-12 w-12 items-center justify-center rounded-xl bg-white p-1">{casinoLogoUrl(item) ? <img src={casinoLogoUrl(item)!} alt={`${item.name} logo`} className="h-full w-full object-contain" /> : <span className="bg-gradient-to-br from-violet-500 to-cyan-400 bg-clip-text text-base font-black text-transparent">{initials(item.name)}</span>}</div><div className="min-w-0"><h3 className="break-words font-bold">{item.name}</h3><p className="text-[10px] uppercase text-white/35">{item.operator_type === "both" ? "Sportsbook + Casino" : item.operator_type}</p></div></div>
                         <dl className="mt-5 space-y-3 text-sm">
                           <div><dt className="text-xs text-white/35">Rating</dt><dd className="mt-1 font-bold text-yellow-200">★ {Number(item.public_rating ?? 0).toFixed(1)}/5</dd></div>
                           <div><dt className="text-xs text-white/35">Offer</dt><dd className="mt-1 text-white/70">{item.bonus_text || (item.bonus_percent != null ? `${item.bonus_percent}% ${item.bonus_type ?? "welcome"} bonus` : "Not listed")}</dd></div>
@@ -223,7 +223,7 @@ export default function CasinoDirectory({ casinos }: { casinos: Casino[] }) {
                           <div><dt className="text-xs text-white/35">License</dt><dd className="mt-1 text-white/70">{item.license_text || "Not listed"}</dd></div>
                           <div><dt className="text-xs text-white/35">Countries / GEO</dt><dd className="mt-1 text-white/70">{item.countries?.length ? item.countries.join(", ") : "Not listed"}</dd></div>
                         </dl>
-                        {item.affiliate_url ? <button type="button" onClick={() => void trackAndOpen(item)} className="mt-6 w-full rounded-2xl bg-white px-4 py-3 text-sm font-bold text-black">Open affiliate offer</button> : <div className="mt-6 rounded-2xl border border-white/10 px-4 py-3 text-center text-xs text-white/35">Affiliate link not configured</div>}
+                        {item.affiliate_url ? <button type="button" onClick={() => void trackAffiliateAndOpen(item)} className="mt-6 w-full rounded-2xl bg-white px-4 py-3 text-sm font-bold text-black">Open affiliate offer</button> : <div className="mt-6 rounded-2xl border border-white/10 px-4 py-3 text-center text-xs text-white/35">Affiliate link not configured</div>}
                       </article>
                     );
                   })}
