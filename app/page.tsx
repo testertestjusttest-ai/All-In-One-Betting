@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { supabase } from "../lib/supabase";
 import { countryName, SITE_URL } from "../lib/seo";
 import CasinoDirectory from "./components/CasinoDirectory";
+import PlatformCarousel from "./components/PlatformCarousel";
 import MonetagAds from "./components/MonetagAds";
 import PWAInstall from "./components/PWAInstall";
 import TrustDisclosure from "./components/TrustDisclosure";
