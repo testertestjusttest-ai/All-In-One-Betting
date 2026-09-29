@@ -345,3 +345,33 @@ a { text-decoration:none; }
  .platform-slide-card{flex-basis:9.75rem;height:6.9rem}
  .platform-viewport{padding-left:1.25rem;padding-right:1.25rem}
 }
+
+/* BetBass platform carousel */
+.platform-carousel{padding:.35rem 0 .2rem}
+.platform-carousel-head{display:flex;align-items:end;justify-content:space-between;gap:1rem;margin-bottom:.8rem}
+.platform-carousel-head h2{margin-top:.18rem;font-size:1.05rem;letter-spacing:-.03em;font-weight:900}
+.platform-carousel-head a{font-size:.7rem;font-weight:800;color:#b9adff;white-space:nowrap}
+.platform-carousel-viewport{overflow:hidden;position:relative;margin-inline:-.25rem;padding:.25rem}
+.platform-carousel-track{display:flex;width:max-content;gap:.7rem;animation:betbass-rtl 34s linear infinite}
+.platform-carousel-viewport:hover .platform-carousel-track{animation-play-state:paused}
+.platform-slide{position:relative;display:grid;grid-template-columns:auto 1fr auto;grid-template-rows:auto auto;align-items:center;gap:0 .65rem;width:185px;min-height:74px;padding:.65rem .7rem;border:1px solid rgba(255,255,255,.09);border-radius:1rem;background:linear-gradient(135deg,rgba(20,20,45,.82),rgba(7,7,20,.72));box-shadow:inset 0 1px rgba(255,255,255,.07),0 14px 35px rgba(0,0,0,.22);flex:0 0 185px;transition:transform .2s ease,border-color .2s ease}
+.platform-slide:hover{transform:translateY(-2px);border-color:rgba(34,211,238,.35)}
+.platform-slide-mark{display:grid;place-items:center;grid-row:1 / 3;width:2.35rem;height:2.35rem;border-radius:.72rem;background:linear-gradient(145deg,#7c3aed,#22d3ee);color:white;font-size:.65rem;font-weight:950;box-shadow:0 0 22px rgba(124,58,237,.22)}
+.platform-slide-name{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:.78rem;font-weight:900;color:#fff}
+.platform-slide-meta{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:rgba(255,255,255,.32);font-size:.57rem}
+.platform-slide-arrow{grid-column:3;grid-row:1 / 3;color:#a99cff;font-size:.9rem}
+.platform-carousel-dots{display:flex;justify-content:center;gap:.35rem;margin:.75rem 0 .15rem}
+.platform-carousel-dots span{width:1.25rem;height:.25rem;border-radius:999px;background:rgba(255,255,255,.12)}
+.platform-carousel-dots .is-active{background:linear-gradient(90deg,#a855f7,#22d3ee)}
+@keyframes betbass-rtl{from{transform:translateX(0)}to{transform:translateX(calc(-50% - .35rem))}}
+.brand-logo{display:block;width:205px;height:auto}
+@media(max-width:600px){
+ .platform-carousel-head{margin-bottom:.55rem}
+ .platform-carousel-head h2{font-size:.95rem}
+ .platform-slide{width:160px;flex-basis:160px;min-height:68px;padding:.55rem .6rem}
+ .platform-slide-mark{width:2.05rem;height:2.05rem;font-size:.58rem}
+ .platform-slide-name{font-size:.68rem}
+ .platform-slide-meta{font-size:.52rem}
+ .brand-logo{width:178px}
+ .platform-carousel-track{gap:.55rem;animation-duration:30s}
+}
