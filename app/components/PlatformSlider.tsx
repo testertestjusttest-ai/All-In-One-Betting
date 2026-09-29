@@ -130,7 +130,7 @@ export default function PlatformSlider({ casinos }: { casinos: Casino[] }) {
               >
                 <span className="platform-logo-box">
                   {logoUrl ? (
-                    <img src={logoUrl ? `/api/logo?domain=${encodeURIComponent(new URL(logoUrl).hostname)}` : ""} alt="" loading="lazy" referrerPolicy="no-referrer" draggable={false}
+                    <img src={casino.logo_url || (casino.website_url ? `/api/logo?domain=${encodeURIComponent(new URL(casino.website_url).hostname.replace(/^www\\./, ""))}` : logoUrl ? `/api/logo?domain=${encodeURIComponent(new URL(logoUrl).hostname)}` : "")} alt="" loading="lazy" referrerPolicy="no-referrer" draggable={false}
                       onError={(e) => {
                         e.currentTarget.style.display = "none";
                         const f = e.currentTarget.parentElement?.querySelector("[data-slider-logo-fallback]") as HTMLElement | null;
