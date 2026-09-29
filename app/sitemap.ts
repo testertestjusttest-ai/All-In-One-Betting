@@ -3,6 +3,7 @@ import { supabase } from "../lib/supabase";
 
 const base = "https://betbass.vercel.app";
 const categories = ["betting-sites","online-casinos","sportsbooks","casino-bonuses","betting-bonuses","bangladesh-betting-sites"];
+const informational = ["about","privacy","terms","responsible-gambling"];
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const { data } = await supabase
@@ -18,6 +19,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 
   return [
     { url: base, lastModified: contentLastModified, changeFrequency: "daily", priority: 1 },
+    ...informational.map(slug => ({ url: `${base}/${slug}`, lastModified: now, changeFrequency: "monthly" as const, priority: 0.5 })),
     ...categories.map(category => ({
       url: `${base}/${category}`,
       lastModified: contentLastModified,
