@@ -107,7 +107,7 @@ export default async function Home() {
         <a href="#directory" className="explore-pill"><span className="explore-icon">⌕</span>Explore</a>
       </nav>
 
-      <PlatformSlider casinos={casinos} />
+      <PlatformSlider casinos={casinos.map((casino) => ({ ...casino, logo_url: platformLogo(casino) }))} />
 
       <section className="hero-shell mx-auto max-w-7xl px-5 pb-10 pt-6 sm:px-6 md:pb-16 md:pt-9">
         <div className="hero-grid">
