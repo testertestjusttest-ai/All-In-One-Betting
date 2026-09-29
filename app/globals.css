@@ -483,3 +483,9 @@ a { text-decoration:none; }
  .slider-control-arrow{width:1.75rem;height:1.75rem;font-size:1.05rem}
 }
 @media(prefers-reduced-motion:reduce){.platform-track{animation:none!important}}
+
+/* Draggable platform slider interaction */
+.platform-viewport{cursor:grab;touch-action:pan-y;user-select:none;-webkit-user-select:none}
+.platform-viewport.is-dragging{cursor:grabbing}
+.platform-viewport.is-dragging .platform-track{pointer-events:none}
+.platform-slide-card{user-select:none;-webkit-user-drag:none}
