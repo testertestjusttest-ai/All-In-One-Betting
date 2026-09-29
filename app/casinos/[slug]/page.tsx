@@ -124,7 +124,7 @@ export default async function CasinoPage({ params }: { params: Promise<{ slug: s
             {casino.geo_codes?.length > 0 && <div className="mt-4"><p className="text-xs uppercase tracking-wider text-white/35">GEO coverage</p><p className="mt-1 text-sm text-white/60">{casino.geo_codes.join(", ")}</p></div>}
             {casino.tags?.length > 0 && <div className="mt-4"><p className="text-xs uppercase tracking-wider text-white/35">Tags</p><div className="mt-2 flex flex-wrap gap-2">{casino.tags.map((x:string)=><span key={x} className="rounded-full border border-white/10 bg-white/5 px-3 py-1.5 text-xs text-white/60">{x}</span>)}</div></div>}
           </section>
-          <AffiliateCTA casinoId={casino.id} affiliateUrl={casino.affiliate_url} label={casino.claim_label || "Claim offer"} />
+          <AffiliateCTA casinoId={casino.id} affiliateUrl={casino.affiliate_url} label={casino.claim_label || "Join Now"} />
         </div>
 
         <section className="mt-6 glass rounded-3xl p-7 md:p-9">
