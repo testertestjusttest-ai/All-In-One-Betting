@@ -59,7 +59,8 @@ function getCountryStats(casinos: any[]) {
 export default async function Home() {
   const casinos = await getCasinos();
   const countryStats = getCountryStats(casinos);
-  const itemList = casinos.slice(0, 100).map((casino, index) => ({
+  const indexableCasinos = casinos.filter((casino:any) => Boolean(casino.affiliate_url && casino.website_url && casino.verified_at && casino.seo_content && String(casino.seo_content).trim().length >= 120 && !casino.seo_noindex));
+  const itemList = indexableCasinos.slice(0, 100).map((casino, index) => ({
     "@type": "ListItem",
     position: index + 1,
     name: casino.name,
