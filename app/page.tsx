@@ -2,12 +2,10 @@ import type { Metadata } from "next";
 import { supabase } from "../lib/supabase";
 import { countryName, SITE_URL } from "../lib/seo";
 import CasinoDirectory from "./components/CasinoDirectory";
-import PlatformCarousel from "./components/PlatformCarousel";
 import MonetagAds from "./components/MonetagAds";
 import PWAInstall from "./components/PWAInstall";
 import PlatformCarousel from "./components/PlatformCarousel";
 import TrustDisclosure from "./components/TrustDisclosure";
-import PlatformSlider from "./components/PlatformSlider";
 import PlatformSlider from "./components/PlatformSlider";
 
 export const revalidate = 300;
