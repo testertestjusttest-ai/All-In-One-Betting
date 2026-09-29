@@ -22,12 +22,11 @@ export function casinoLogoUrl(casino: Pick<Casino, "logo_url" | "website_url" | 
   const domain = domainForCasino(casino);
   if (!domain) return null;
 
-  // Browser-side favicon loading is more reliable than proxying every logo through the app server.
-  // Keep the API route as a same-origin fallback when an operator blocks the favicon request.
-  return `https://www.google.com/s2/favicons?domain=${encodeURIComponent(domain)}&sz=128`;
+  // Prefer the same-origin logo proxy so logos are not blocked by browser referrer/CORS policies.
+  return "/api/logo?domain=" + encodeURIComponent(domain);
 }
 
 export function casinoLogoFallbackUrl(casino: Pick<Casino, "logo_url" | "website_url" | "slug">) {
   const domain = domainForCasino(casino);
-  return domain ? "/api/logo?domain=" + encodeURIComponent(domain) : null;
+  return domain ? `https://www.google.com/s2/favicons?domain=${encodeURIComponent(domain)}&sz=128` : null;
 }
