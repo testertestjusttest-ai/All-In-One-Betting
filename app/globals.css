@@ -97,3 +97,13 @@ a { text-decoration:none; }
  .brand-logo{width:2.85rem;height:2.85rem;flex-basis:2.85rem}.brand-wordmark{font-size:1.45rem}.brand-wordmark small{font-size:.36rem;letter-spacing:.15em}
  .explore-pill{padding:.65rem .95rem}.platform-slider{margin:0 -1.25rem;padding-left:1.25rem;padding-right:1.25rem}.platform-track{gap:.65rem;animation-duration:25s}.platform-chip{flex-basis:150px;min-width:150px;height:82px}.platform-chip-logo{width:2rem;height:2rem;flex-basis:2rem}
 }
+
+.platform-chip{flex-direction:column;justify-content:center;text-align:center;gap:.38rem}
+.platform-chip-logo{position:relative;overflow:hidden;width:2.75rem;height:2.75rem;flex-basis:2.75rem;border-radius:.8rem}
+.platform-chip-logo img{width:100%;height:100%;object-fit:contain;padding:.18rem}
+.platform-chip-logo>span{display:grid;place-items:center;width:100%;height:100%}
+.platform-chip span:nth-child(2){width:100%;flex:0 0 auto}
+.platform-chip strong{font-size:.78rem}
+.platform-chip small{font-size:.55rem}
+.platform-chip b{position:absolute;top:.55rem;right:.6rem;font-size:.65rem}
+@media(max-width:600px){.platform-chip{flex-basis:150px;min-width:150px;height:90px}.platform-chip-logo{width:2.45rem;height:2.45rem;flex-basis:2.45rem}}
