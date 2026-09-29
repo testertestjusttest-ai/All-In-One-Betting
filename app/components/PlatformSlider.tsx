@@ -14,7 +14,8 @@ type Casino = {
 };
 
 export default function PlatformSlider({ casinos }: { casinos: Casino[] }) {
-  const items = casinos.slice(0, 12);
+  // Show every platform supplied by the directory, not only the first 12.
+  const items = casinos;
   const viewportRef = useRef<HTMLDivElement | null>(null);
   const trackRef = useRef<HTMLDivElement | null>(null);
   const [paused, setPaused] = useState(false);
@@ -145,7 +146,12 @@ export default function PlatformSlider({ casinos }: { casinos: Casino[] }) {
               >
                 <span className="platform-logo-box">
                   {logoUrl ? (
-                    <img src={logoUrl} alt="" loading="lazy" referrerPolicy="no-referrer" draggable={false}
+                    <img
+                      src={logoUrl}
+                      alt=""
+                      loading="lazy"
+                      referrerPolicy="no-referrer"
+                      draggable={false}
                       onError={(e) => {
                         const fallbackUrl = casinoLogoFallbackUrl(casino);
                         if (fallbackUrl && e.currentTarget.src !== new URL(fallbackUrl, window.location.origin).href) {
@@ -158,7 +164,9 @@ export default function PlatformSlider({ casinos }: { casinos: Casino[] }) {
                       }}
                     />
                   ) : null}
-                  <span data-slider-logo-fallback style={{ display: logoUrl ? "none" : "block" }}>{initials(casino.name || "BetBass")}</span>
+                  <span data-slider-logo-fallback style={{ display: logoUrl ? "none" : "block" }}>
+                    {initials(casino.name || "BetBass")}
+                  </span>
                 </span>
                 <span className="platform-slide-name">{casino.name || "Platform"}</span>
                 <span className="platform-slide-meta">{casino.category || "Betting & casino"}</span>
