@@ -8,14 +8,17 @@ export function initials(name: string) {
   return name.split(/\s+/).slice(0,2).map(x => x[0]).join("").toUpperCase();
 }
 
-export function casinoLogoUrl(casino: Pick<Casino,"logo_url"|"website_url"|"slug">) {
-  if (casino.logo_url) return casino.logo_url;
+function domainForCasino(casino: Pick<Casino, "logo_url" | "website_url" | "slug">) {
   if (casino.website_url) {
     try {
-      const domain = new URL(casino.website_url).hostname.replace(/^www\./, "");
-      return "https://www.google.com/s2/favicons?domain=" + encodeURIComponent(domain) + "&sz=128";
+      return new URL(casino.website_url).hostname.replace(/^www\./, "");
     } catch {}
   }
-  const domain = casino.slug ? logoDomains[casino.slug] : undefined;
-  return domain ? "https://www.google.com/s2/favicons?domain=" + encodeURIComponent(domain) + "&sz=128" : null;
+  return casino.slug ? logoDomains[casino.slug] : undefined;
+}
+
+export function casinoLogoUrl(casino: Pick<Casino, "logo_url" | "website_url" | "slug">) {
+  if (casino.logo_url) return casino.logo_url;
+  const domain = domainForCasino(casino);
+  return domain ? "/api/logo?domain=" + encodeURIComponent(domain) : null;
 }
