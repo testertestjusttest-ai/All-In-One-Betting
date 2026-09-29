@@ -28,13 +28,14 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   const { slug } = await params;
   const casino = await getCasino(slug);
   if (!casino) return { title: "Platform not found", robots: { index: false, follow: false } };
+  const indexable = Boolean(casino.affiliate_url && casino.website_url && casino.verified_at && casino.seo_content && String(casino.seo_content).trim().length >= 120 && !casino.seo_noindex);
 
   return {
     title: casino.seo_title?.trim() || `${casino.name} — Betting & Casino Platform`,
     description: casino.seo_description?.trim() || casino.short_description || `${casino.name} betting and casino platform profile, offers and payment methods on BetBass.`,
     keywords: casino.seo_keywords?.length ? casino.seo_keywords : undefined,
     alternates: { canonical: `/casinos/${casino.slug}` },
-    robots: { index: !casino.seo_noindex, follow: true },
+    robots: { index: indexable, follow: true },
     openGraph: {
       title: casino.seo_title?.trim() || `${casino.name} — BetBass`,
       description: casino.seo_description?.trim() || casino.short_description || "",
