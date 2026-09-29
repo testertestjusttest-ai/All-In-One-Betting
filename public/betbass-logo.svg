@@ -1,11 +1,13 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 520 180">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 220" role="img" aria-label="BetBass">
 <defs>
-<linearGradient id="g" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#8b5cf6"/><stop offset=".55" stop-color="#7c3aed"/><stop offset="1" stop-color="#22d3ee"/></linearGradient>
-<linearGradient id="t" x1="0" y1="0" x2="1" y2="0"><stop stop-color="#fff"/><stop offset=".5" stop-color="#b26cff"/><stop offset="1" stop-color="#5bdcff"/></linearGradient>
+<linearGradient id="shield" x1="55" y1="25" x2="190" y2="190" gradientUnits="userSpaceOnUse"><stop stop-color="#a78bfa"/><stop offset=".48" stop-color="#7c3aed"/><stop offset="1" stop-color="#06b6d4"/></linearGradient>
+<linearGradient id="word" x1="250" y1="70" x2="650" y2="155" gradientUnits="userSpaceOnUse"><stop stop-color="#fff"/><stop offset=".38" stop-color="#b978ff"/><stop offset=".72" stop-color="#8d7cff"/><stop offset="1" stop-color="#55dcff"/></linearGradient>
+<filter id="glow"><feGaussianBlur stdDeviation="8" result="blur"/><feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
 </defs>
-<path d="M35 26 92 9l57 17 27 49-27 49-57 17-57-17L8 75z" fill="#090b1b" stroke="url(#g)" stroke-width="6"/>
-<path d="M46 31 92 17l46 14 20 44-20 44-46 14-46-14L26 75z" fill="url(#g)" opacity=".28"/>
-<path d="M71 43h34c21 0 32 9 32 22 0 9-5 16-14 19 11 3 17 10 17 20 0 16-13 24-36 24H71zm20 15v18h13c8 0 12-3 12-9 0-6-4-9-12-9zm0 33v21h15c9 0 14-4 14-11 0-7-5-10-14-10z" fill="#fff"/>
-<text x="185" y="86" font-family="Arial,Helvetica,sans-serif" font-size="61" font-weight="900" letter-spacing="-3" fill="url(#t)">BetBass</text>
-<text x="190" y="124" font-family="Arial,Helvetica,sans-serif" font-size="15" font-weight="700" letter-spacing="5" fill="#9eb3df">BET SMART  •  PLAY BIG</text>
+<path d="M112 15 195 47v66c0 50-34 79-83 94-49-15-83-44-83-94V47l83-32Z" fill="#070914" stroke="url(#shield)" stroke-width="8"/>
+<path d="M112 30 178 56v55c0 39-25 63-66 77-41-14-66-38-66-77V56l66-26Z" fill="url(#shield)" opacity=".23"/>
+<path d="M72 62h30l10 13 11-13h31l-29 35v58h-27V97L72 62Z" fill="#fff" filter="url(#glow)"/>
+<circle cx="166" cy="49" r="7" fill="#22d3ee"/><circle cx="55" cy="164" r="7" fill="#c084fc"/>
+<text x="235" y="120" font-family="Arial,Helvetica,sans-serif" font-size="76" font-weight="900" letter-spacing="-4" fill="url(#word)">BetBass</text>
+<text x="242" y="160" font-family="Arial,Helvetica,sans-serif" font-size="18" font-weight="800" letter-spacing="7" fill="#9eb3df">BET SMART • PLAY BIG</text>
 </svg>
