@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 160 160" role="img" aria-labelledby="title desc">
+<title id="title">BetBass logo</title><desc id="desc">A stylized B inside a luminous beveled hexagonal mark.</desc>
+<defs>
+ <linearGradient id="g" x1="18" y1="12" x2="142" y2="148" gradientUnits="userSpaceOnUse"><stop stop-color="#8B5CF6"/><stop offset=".48" stop-color="#A855F7"/><stop offset="1" stop-color="#22D3EE"/></linearGradient>
+ <linearGradient id="b" x1="58" y1="38" x2="111" y2="121" gradientUnits="userSpaceOnUse"><stop stop-color="#FFFFFF"/><stop offset="1" stop-color="#DDE8FF"/></linearGradient>
+ <filter id="glow" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="7" result="blur"/><feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+</defs>
+<path d="M80 8 143 44v72l-63 36-63-36V44L80 8Z" fill="#080A19" stroke="url(#g)" stroke-width="5" filter="url(#glow)"/>
+<path d="M80 18 134 49v62l-54 31-54-31V49L80 18Z" fill="url(#g)" opacity=".22"/>
+<path d="M61 43h27c18 0 29 9 29 23 0 8-4 14-11 18 9 3 15 10 15 20 0 15-12 24-32 24H61V43Zm20 16v18h7c6 0 10-3 10-9 0-6-4-9-10-9h-7Zm0 34v19h10c7 0 11-3 11-10 0-6-4-9-11-9H81Z" fill="url(#b)"/>
+<path d="M28 47 80 18l52 29" fill="none" stroke="#67E8F9" stroke-opacity=".55" stroke-width="2"/>
+</svg>
