@@ -1,27 +1,206 @@
 import type { Metadata } from "next";
 import { supabase } from "../lib/supabase";
+import { countryName, SITE_URL } from "../lib/seo";
 import CasinoDirectory from "./components/CasinoDirectory";
 import MonetagAds from "./components/MonetagAds";
 import PWAInstall from "./components/PWAInstall";
 import TrustDisclosure from "./components/TrustDisclosure";
 
+export const revalidate = 300;
+
 export const metadata: Metadata = {
-  title: "Betting Sites & Online Casinos — Compare Platforms, Bonuses & Availability",
-  description: "Compare betting sites, online casinos and sportsbook platforms on BetBass. Explore offers, payment methods, licensing and country availability in one directory.",
+  title: "BetBass — Betting Sites & Online Casino Comparison",
+  description:
+    "Compare betting sites, online casinos and sportsbooks by offers, payment methods, licensing and country availability. BetBass provides structured platform profiles and transparent affiliate disclosures.",
   alternates: { canonical: "/" },
-  openGraph: { title: "BetBass — Betting Sites & Online Casino Comparison", description: "Compare betting sites, online casinos, sportsbook platforms, offers and availability.", url: "/", type: "website" }
+  openGraph: {
+    title: "BetBass — Betting & Casino Comparison",
+    description:
+      "Compare betting sites, online casinos, sportsbooks, offers, payments and GEO availability.",
+    url: SITE_URL,
+    type: "website",
+  },
 };
+
 const faqJsonLd = {
   "@context": "https://schema.org",
   "@type": "FAQPage",
   mainEntity: [
-    { "@type": "Question", name: "What is BetBass?", acceptedAnswer: { "@type": "Answer", text: "BetBass is a betting and casino comparison and affiliate directory." } },
-    { "@type": "Question", name: "Can I find betting sites and online casinos?", acceptedAnswer: { "@type": "Answer", text: "Yes. The directory can contain sportsbook, casino and combined betting-and-casino platforms, with category and GEO information supplied by the site administrator." } },
-    { "@type": "Question", name: "Are offers and availability guaranteed?", acceptedAnswer: { "@type": "Answer", text: "No. Offers, licensing, eligibility and product availability can change by operator and jurisdiction. Verify current terms with the operator." } },
-    { "@type": "Question", name: "Does BetBass accept bets?", acceptedAnswer: { "@type": "Answer", text: "No. BetBass is a comparison and affiliate directory. It does not accept wagers, hold player funds or process gambling transactions." } }
-  ]
+    { "@type": "Question", name: "What is BetBass?", acceptedAnswer: { "@type": "Answer", text: "BetBass is a comparison and affiliate directory that organizes published information about betting sites, online casinos and sportsbook platforms." } },
+    { "@type": "Question", name: "How does BetBass handle offers?", acceptedAnswer: { "@type": "Answer", text: "Offer details are displayed from the BetBass dataset and should be checked against the operator's current terms because promotions, eligibility and availability can change." } },
+    { "@type": "Question", name: "Does BetBass accept bets or deposits?", acceptedAnswer: { "@type": "Answer", text: "No. BetBass is a comparison and affiliate directory. It does not accept wagers, hold player funds or process gambling transactions." } },
+    { "@type": "Question", name: "Why are some outbound links affiliate links?", acceptedAnswer: { "@type": "Answer", text: "Some outbound links may use publisher-configured affiliate tracking. This can support BetBass and does not guarantee an offer, outcome or eligibility." } },
+  ],
 };
-export const dynamic = "force-dynamic";
-async function getCasinos(){const {data}=await supabase.from("betbass_casinos").select("*").eq("active",true).order("priority",{ascending:true}).order("bangladesh_priority",{ascending:false}).order("featured",{ascending:false}).order("name");return data??[];}
-export default async function Home(){const casinos=await getCasinos();const siteUrl="https://betbass.vercel.app";const itemList=casinos.slice(0,100).map((casino,index)=>({"@type":"ListItem",position:index+1,name:casino.name,url:`${siteUrl}/casinos/${casino.slug}`}));const jsonLd={"@context":"https://schema.org","@type":"CollectionPage",name:"BetBass Betting & Casino Comparison Directory",description:"Compare betting sites, online casinos and sportsbook platforms.",url:siteUrl,mainEntity:{"@type":"ItemList",name:"BetBass platform directory",numberOfItems:itemList.length,itemList}};return <main className="min-h-screen overflow-hidden"><script type="application/ld+json" dangerouslySetInnerHTML={{__html:JSON.stringify(jsonLd)}}/><script type="application/ld+json" dangerouslySetInnerHTML={{__html:JSON.stringify(faqJsonLd)}}/><nav className="mx-auto flex max-w-7xl items-center justify-between px-6 py-6"><a href="/" className="text-2xl font-black tracking-tight">Bet<span className="gradient-text">Bass</span></a><div className="hidden gap-7 text-sm text-white/65 md:flex"><a href="#directory" className="hover:text-white">Directory</a><a href="#compare" className="hover:text-white">Compare</a><a href="#faq" className="hover:text-white">FAQ</a></div></nav><MonetagAds placement="top"/><section className="mx-auto max-w-7xl px-6 pb-20 pt-16 md:pt-24"><div className="grid gap-10 lg:grid-cols-[1.4fr_.6fr] lg:items-end"><div className="max-w-5xl"><div className="mb-5 inline-flex rounded-full border border-violet-400/20 bg-violet-400/10 px-4 py-2 text-xs font-semibold text-violet-200">BETTING SITES • ONLINE CASINOS • SPORTSBOOKS</div><h1 className="text-5xl font-black leading-[1.03] tracking-tight md:text-7xl">Compare <span className="gradient-text">betting sites & casinos</span> in one directory.</h1><p className="mt-6 max-w-3xl text-lg leading-8 text-white/60">Search casino and sportsbook brands, compare offers, payment methods, licensing and country availability, then open detailed platform profiles.</p><div className="mt-8 flex flex-col gap-3 sm:flex-row"><a href="#directory" className="rounded-2xl bg-white px-6 py-4 text-center font-bold text-black hover:bg-white/90">Explore platforms</a><a href="#compare" className="rounded-2xl border border-white/15 bg-white/5 px-6 py-4 text-center font-bold hover:bg-white/10">Compare features</a></div></div><div className="grid grid-cols-2 gap-3 sm:grid-cols-4 lg:grid-cols-2"><div className="glass rounded-2xl p-5"><p className="text-2xl font-black">{casinos.length}+</p><p className="mt-1 text-xs text-white/40">listed platforms</p></div><div className="glass rounded-2xl p-5"><p className="text-2xl font-black">6</p><p className="mt-1 text-xs text-white/40">directory categories</p></div><div className="glass rounded-2xl p-5"><p className="text-2xl font-black">3</p><p className="mt-1 text-xs text-white/40">platforms per comparison</p></div><div className="glass rounded-2xl p-5"><p className="text-2xl font-black">18+</p><p className="mt-1 text-xs text-white/40">where applicable</p></div></div></div></section><section id="directory" className="mx-auto max-w-7xl px-6 py-12"><div className="mb-8 grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-6">{[["Betting Sites","/betting-sites"],["Online Casinos","/online-casinos"],["Sportsbooks","/sportsbooks"],["Casino Bonuses","/casino-bonuses"],["Betting Bonuses","/betting-bonuses"],["Bangladesh","/bangladesh-betting-sites"]].map(([label,href])=><a key={href} href={href} className="rounded-2xl border border-white/10 bg-white/5 px-3 py-4 text-center text-xs font-semibold text-white/70 transition hover:border-violet-400/30 hover:bg-white/10 hover:text-white sm:text-sm">{label}</a>)}</div><CasinoDirectory casinos={casinos}/></section><MonetagAds placement="inline"/><section id="compare" className="mx-auto max-w-7xl px-6 py-16"><div className="glass rounded-3xl p-7 md:p-10"><p className="text-sm font-semibold text-violet-300">BETTING & CASINO DIRECTORY</p><h2 className="mt-2 text-3xl font-bold">Compare platforms by the information that matters</h2><div className="mt-7 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">{[["Platform profiles","Review operator type, offer details, tags and market availability."],["Affiliate offers","Open publisher-configured tracking links for listed platforms."],["Payment methods","Compare available payment information shown for each platform."],["Country availability","Check listed GEO coverage and verify current operator terms."]].map(([title,body])=><div key={title} className="rounded-2xl border border-white/10 bg-white/5 p-5"><h3 className="font-semibold">{title}</h3><p className="mt-2 text-sm leading-6 text-white/45">{body}</p></div>)}</div></div></section><TrustDisclosure />
-<section id="faq" className="mx-auto max-w-4xl px-6 py-16"><h2 className="text-3xl font-bold">BetBass FAQ</h2><div className="mt-6 space-y-3"><details className="glass rounded-2xl p-5"><summary className="cursor-pointer font-semibold">What is BetBass?</summary><p className="mt-3 text-white/55">BetBass is a betting and casino comparison and affiliate directory. It organizes platform information, offers, payment details and availability in dedicated pages.</p></details><details className="glass rounded-2xl p-5"><summary className="cursor-pointer font-semibold">Can I find betting sites and online casinos?</summary><p className="mt-3 text-white/55">Yes. The directory can contain sportsbook, casino and combined betting-and-casino platforms, with category and GEO information supplied by the site administrator.</p></details><details className="glass rounded-2xl p-5"><summary className="cursor-pointer font-semibold">Are offers and availability guaranteed?</summary><p className="mt-3 text-white/55">No. Offers, licensing, eligibility and product availability can change by operator and jurisdiction. Always verify the current terms with the operator.</p></details><details className="glass rounded-2xl p-5"><summary className="cursor-pointer font-semibold">Does BetBass accept bets?</summary><p className="mt-3 text-white/55">No. BetBass is a comparison and affiliate directory. It does not accept wagers, hold player funds or process gambling transactions.</p></details></div></section><PWAInstall/><footer className="border-t border-white/10 px-6 py-10 text-center text-sm text-white/40"><div className="mb-4 flex flex-wrap justify-center gap-x-5 gap-y-2"><a href="/about" className="hover:text-white">About</a><a href="/privacy" className="hover:text-white">Privacy</a><a href="/terms" className="hover:text-white">Terms</a><a href="/responsible-gambling" className="hover:text-white">Responsible Gambling</a></div>18+ where applicable. Gambling involves risk. Availability, licensing and offers vary by jurisdiction. Always check current operator terms.</footer></main>}
+
+async function getCasinos() {
+  const { data } = await supabase
+    .from("betbass_casinos")
+    .select("*")
+    .eq("active", true)
+    .order("priority", { ascending: true })
+    .order("bangladesh_priority", { ascending: false })
+    .order("featured", { ascending: false })
+    .order("name");
+  return data ?? [];
+}
+
+function getCountryStats(casinos: any[]) {
+  const counts = new Map<string, number>();
+  for (const casino of casinos) {
+    for (const raw of [...(casino.geo_codes ?? []), ...(casino.geo_targeting ?? [])]) {
+      const code = String(raw).toUpperCase();
+      if (code) counts.set(code, (counts.get(code) ?? 0) + 1);
+    }
+  }
+  return [...counts.entries()].sort((a, b) => b[1] - a[1] || a[0].localeCompare(b[0])).slice(0, 8);
+}
+
+export default async function Home() {
+  const casinos = await getCasinos();
+  const countryStats = getCountryStats(casinos);
+  const itemList = casinos.slice(0, 100).map((casino, index) => ({
+    "@type": "ListItem",
+    position: index + 1,
+    name: casino.name,
+    url: SITE_URL + "/casinos/" + casino.slug,
+  }));
+
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@type": "CollectionPage",
+    name: "BetBass Betting & Casino Comparison Directory",
+    description: "Compare betting sites, online casinos and sportsbook platforms.",
+    url: SITE_URL,
+    mainEntity: { "@type": "ItemList", name: "BetBass platform directory", numberOfItems: itemList.length, itemList },
+  };
+
+  return (
+    <main className="min-h-screen overflow-hidden">
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }} />
+
+      <nav className="site-nav mx-auto flex max-w-7xl items-center justify-between px-5 py-5 sm:px-6">
+        <a href="/" className="brand-mark" aria-label="BetBass home">
+          <span className="brand-orb">B</span>
+          <span>Bet<span className="gradient-text">Bass</span></span>
+        </a>
+        <div className="hidden items-center gap-7 text-sm text-white/60 md:flex">
+          <a href="#directory" className="nav-link">Directory</a>
+          <a href="/countries" className="nav-link">Countries</a>
+          <a href="/methodology" className="nav-link">Methodology</a>
+          <a href="#faq" className="nav-link">FAQ</a>
+        </div>
+        <a href="#directory" className="rounded-full border border-white/15 bg-white/5 px-4 py-2 text-xs font-bold text-white transition hover:border-violet-300/40 hover:bg-white/10">Explore</a>
+      </nav>
+
+      <section className="hero-shell mx-auto max-w-7xl px-5 pb-16 pt-10 sm:px-6 md:pb-24 md:pt-16">
+        <div className="hero-grid">
+          <div className="relative z-10">
+            <div className="eyebrow"><span className="eyebrow-dot" />GLOBAL BETTING & CASINO DIRECTORY</div>
+            <h1 className="hero-title">Compare platforms with <span className="hero-title-accent">clarity, context & confidence.</span></h1>
+            <p className="hero-copy">Explore structured profiles for betting sites, online casinos and sportsbooks. Compare published offers, payment information, licensing notes and GEO availability before leaving BetBass.</p>
+            <div className="hero-actions">
+              <a href="#directory" className="primary-cta">Browse platforms <span>↗</span></a>
+              <a href="/countries" className="secondary-cta">Explore countries</a>
+            </div>
+            <div className="hero-trust"><span>18+ where applicable</span><span>•</span><span>Affiliate disclosure</span><span>•</span><span>Offers can change</span></div>
+          </div>
+
+          <div className="hero-visual" aria-label="BetBass comparison overview">
+            <div className="hero-halo hero-halo-one" />
+            <div className="hero-halo hero-halo-two" />
+            <div className="hero-core">
+              <div className="core-ring ring-one" /><div className="core-ring ring-two" />
+              <div className="core-logo">BB</div><span className="core-caption">COMPARE</span>
+            </div>
+            <div className="float-card float-card-one"><span className="float-label">Platforms</span><strong>{casinos.length}</strong><small>active profiles</small></div>
+            <div className="float-card float-card-two"><span className="float-label">GEO coverage</span><strong>{countryStats.length || 0}+</strong><small>markets surfaced</small></div>
+            <div className="float-card float-card-three"><span className="float-label">Research first</span><strong>DATA</strong><small>terms • payments • GEO</small></div>
+          </div>
+        </div>
+
+        <div className="trust-strip mt-10">
+          <div><span className="trust-icon">✓</span><div><strong>Structured profiles</strong><small>Consistent platform fields</small></div></div>
+          <div><span className="trust-icon">↻</span><div><strong>Freshness aware</strong><small>Verify current operator terms</small></div></div>
+          <div><span className="trust-icon">⌖</span><div><strong>Country context</strong><small>GEO data where available</small></div></div>
+          <div><span className="trust-icon">↗</span><div><strong>Transparent links</strong><small>Affiliate disclosure included</small></div></div>
+        </div>
+      </section>
+
+      <MonetagAds placement="top" />
+
+      <section id="directory" className="mx-auto max-w-7xl px-5 py-10 sm:px-6 md:py-16">
+        <div className="section-heading">
+          <div><p className="section-kicker">DISCOVER</p><h2>Find the right information faster.</h2><p>Search, filter and compare the platforms currently published in the BetBass dataset.</p></div>
+          <a href="/methodology" className="method-link">How BetBass works →</a>
+        </div>
+
+        <div className="quick-links">
+          {[
+            ["Betting Sites", "/betting-sites"], ["Online Casinos", "/online-casinos"], ["Sportsbooks", "/sportsbooks"],
+            ["Casino Bonuses", "/casino-bonuses"], ["Betting Bonuses", "/betting-bonuses"], ["All Countries", "/countries"],
+          ].map(([label, href]) => <a key={href} href={href}>{label}<span>↗</span></a>)}
+        </div>
+
+        <CasinoDirectory casinos={casinos} />
+      </section>
+
+      <MonetagAds placement="inline" />
+
+      <section className="mx-auto max-w-7xl px-5 py-12 sm:px-6 md:py-16">
+        <div className="country-panel">
+          <div className="section-heading mb-7">
+            <div><p className="section-kicker">GLOBAL GEO</p><h2>Explore by country</h2><p>Market pages are generated from country information currently present in the dataset.</p></div>
+            <a href="/countries" className="method-link">View all countries →</a>
+          </div>
+          <div className="country-grid">
+            {countryStats.map(([code, count]) => (
+              <a key={code} href={"/countries/" + code.toLowerCase()} className="country-card">
+                <span>{code}</span><strong>{countryName(code)}</strong><small>{count} listed platform{count === 1 ? "" : "s"} ↗</small>
+              </a>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section className="mx-auto max-w-7xl px-5 py-10 sm:px-6 md:py-16">
+        <div className="methodology-preview">
+          <div>
+            <p className="section-kicker">TRUST LAYER</p>
+            <h2>More than an affiliate link.</h2>
+            <p>BetBass is designed to add useful comparison value: structured offer fields, payment context, country availability, freshness signals and clear disclosure. Operator terms remain the source of truth for eligibility and current promotions.</p>
+            <a href="/methodology" className="primary-cta inline-flex">Read our methodology <span>→</span></a>
+          </div>
+          <div className="methodology-points">
+            <div><span>01</span><strong>Evidence-aware</strong><p>Separate published facts from editorial context.</p></div>
+            <div><span>02</span><strong>Comparison-first</strong><p>Make important fields easy to scan side by side.</p></div>
+            <div><span>03</span><strong>GEO-aware</strong><p>Surface country data without implying universal eligibility.</p></div>
+            <div><span>04</span><strong>Freshness-aware</strong><p>Show update context and remind visitors to verify live terms.</p></div>
+          </div>
+        </div>
+      </section>
+
+      <TrustDisclosure />
+
+      <section id="faq" className="mx-auto max-w-4xl px-5 py-12 sm:px-6 md:py-16">
+        <p className="section-kicker">FAQ</p><h2 className="mt-2 text-3xl font-black md:text-4xl">BetBass FAQ</h2>
+        <div className="mt-7 space-y-3">
+          <details className="glass rounded-2xl p-5"><summary className="cursor-pointer font-semibold">What is BetBass?</summary><p className="mt-3 text-sm leading-6 text-white/55">BetBass is a comparison and affiliate directory that organizes published information about betting sites, online casinos and sportsbooks.</p></details>
+          <details className="glass rounded-2xl p-5"><summary className="cursor-pointer font-semibold">How are bonus details handled?</summary><p className="mt-3 text-sm leading-6 text-white/55">Bonus information is stored as platform data and can change. Always verify the current promotion, eligibility, wagering terms and expiry conditions with the operator.</p></details>
+          <details className="glass rounded-2xl p-5"><summary className="cursor-pointer font-semibold">Does BetBass accept bets?</summary><p className="mt-3 text-sm leading-6 text-white/55">No. BetBass does not accept wagers, hold player funds or process gambling transactions.</p></details>
+          <details className="glass rounded-2xl p-5"><summary className="cursor-pointer font-semibold">Are outbound links affiliate links?</summary><p className="mt-3 text-sm leading-6 text-white/55">Some outbound buttons may use publisher-configured affiliate tracking links. This can support the site and does not guarantee an offer, outcome or eligibility.</p></details>
+        </div>
+      </section>
+
+      <PWAInstall />
+
+      <footer className="border-t border-white/10 px-5 py-10 text-center text-sm text-white/40 sm:px-6">
+        <div className="mb-4 flex flex-wrap justify-center gap-x-5 gap-y-2">
+          <a href="/about" className="hover:text-white">About</a><a href="/methodology" className="hover:text-white">Methodology</a><a href="/privacy" className="hover:text-white">Privacy</a><a href="/terms" className="hover:text-white">Terms</a><a href="/responsible-gambling" className="hover:text-white">Responsible Gambling</a>
+        </div>
+        18+ where applicable. Gambling involves risk. Availability, licensing and offers vary by jurisdiction. Always check current operator terms.
+      </footer>
+    </main>
+  );
+}
