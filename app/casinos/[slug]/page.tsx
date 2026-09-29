@@ -91,6 +91,9 @@ export default async function CasinoPage({ params }: { params: Promise<{ slug: s
               <p className="text-xs font-bold uppercase tracking-[.2em] text-violet-300">{casino.operator_type === "both" ? "Sportsbook + Casino" : casino.operator_type}</p>
               <h1 className="mt-2 text-4xl font-black md:text-6xl">{casino.name}</h1>
               <p className="mt-4 max-w-3xl text-lg text-white/55">{casino.short_description}</p>
+              <div className="mt-5 max-w-md">
+                <AffiliateCTA casinoId={casino.id} affiliateUrl={casino.affiliate_url} label="Join Now" />
+              </div>
             </div>
             {casino.public_rating != null && Number(casino.public_rating) > 0 && (
               <div className="rounded-2xl border border-white/10 bg-white/5 px-5 py-4 text-center">
@@ -124,7 +127,6 @@ export default async function CasinoPage({ params }: { params: Promise<{ slug: s
             {casino.geo_codes?.length > 0 && <div className="mt-4"><p className="text-xs uppercase tracking-wider text-white/35">GEO coverage</p><p className="mt-1 text-sm text-white/60">{casino.geo_codes.join(", ")}</p></div>}
             {casino.tags?.length > 0 && <div className="mt-4"><p className="text-xs uppercase tracking-wider text-white/35">Tags</p><div className="mt-2 flex flex-wrap gap-2">{casino.tags.map((x:string)=><span key={x} className="rounded-full border border-white/10 bg-white/5 px-3 py-1.5 text-xs text-white/60">{x}</span>)}</div></div>}
           </section>
-          <AffiliateCTA casinoId={casino.id} affiliateUrl={casino.affiliate_url} label={casino.claim_label || "Join Now"} />
         </div>
 
         <section className="mt-6 glass rounded-3xl p-7 md:p-9">
