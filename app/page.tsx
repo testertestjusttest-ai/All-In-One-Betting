@@ -105,8 +105,10 @@ export default async function Home() {
           <div className="platform-track">
             {[...casinos.slice(0, 8), ...casinos.slice(0, 8)].map((casino:any, index:number) => (
               <a key={casino.slug + "-" + index} href={"/casinos/" + casino.slug} className="platform-chip">
-                <span className="platform-chip-logo">{String(casino.name || "B").slice(0,1).toUpperCase()}</span>
-                <span><strong>{casino.name}</strong><small>{casino.category || "Platform"}</small></span>
+                <span className="platform-chip-logo">
+                  {casino.logo_url ? <img src={casino.logo_url} alt="" loading="lazy" /> : <span>{String(casino.name || "B").slice(0,1).toUpperCase()}</span>}
+                </span>
+                <span><strong>{casino.name}</strong><small>{casino.category === "both" ? "Betting + Casino" : casino.category || "Platform"}</small></span>
                 <b>↗</b>
               </a>
             ))}
