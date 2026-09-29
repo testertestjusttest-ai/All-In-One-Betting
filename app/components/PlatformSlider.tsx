@@ -1,88 +1,39 @@
 "use client";
 
-import { useMemo, useState } from "react";
-
-type Casino = {
-  slug?: string | null;
-  name?: string | null;
-  category?: string | null;
-  operator_type?: string | null;
-  website_url?: string | null;
-  logo_url?: string | null;
-};
-
-function faviconFor(casino: Casino) {
-  if (casino.logo_url) return casino.logo_url;
-  if (casino.website_url) {
-    try {
-      const domain = new URL(casino.website_url).hostname.replace(/^www\./, "");
-      return `https://www.google.com/s2/favicons?domain=${encodeURIComponent(domain)}&sz=128`;
-    } catch {}
-  }
-  return "";
-}
-
-function initial(name?: string | null) {
-  return String(name || "B").trim().slice(0, 1).toUpperCase();
-}
+import { useEffect, useMemo, useState } from "react";
+type Casino = { slug?: string; name?: string; category?: string; logo_url?: string | null };
 
 export default function PlatformSlider({ casinos }: { casinos: Casino[] }) {
-  const items = useMemo(() => casinos.filter(Boolean).slice(0, 12), [casinos]);
+  const items = useMemo(() => casinos.slice(0, 12), [casinos]);
+  const [active, setActive] = useState(0);
   const [paused, setPaused] = useState(false);
-
+  useEffect(() => {
+    if (!items.length || paused) return;
+    const timer = window.setInterval(() => setActive((v) => (v + 1) % items.length), 2600);
+    return () => window.clearInterval(timer);
+  }, [items.length, paused]);
   if (!items.length) return null;
-
-  const loop = [...items, ...items];
-
   return (
-    <section
-      className={"platform-slider" + (paused ? " is-paused" : "")}
-      aria-label="Top casinos and betting platforms"
-      onMouseEnter={() => setPaused(true)}
-      onMouseLeave={() => setPaused(false)}
-      onTouchStart={() => setPaused(true)}
-      onTouchEnd={() => setPaused(false)}
-    >
+    <section className="platform-slider" aria-label="Top betting and casino platforms" onMouseEnter={() => setPaused(true)} onMouseLeave={() => setPaused(false)} onTouchStart={() => setPaused(true)} onTouchEnd={() => setPaused(false)}>
       <div className="platform-slider-head">
-        <div className="platform-slider-title">
-          <span className="platform-flame" aria-hidden="true">✦</span>
-          <div>
-            <p className="section-kicker">TOP PLATFORMS</p>
-            <h2>Casinos & betting sites</h2>
-          </div>
-        </div>
+        <div className="platform-slider-title"><span className="platform-fire">✦</span><div><p className="section-kicker">PLATFORM DIRECTORY</p><strong>Top casinos &amp; platforms</strong></div></div>
         <a href="#directory">View all <span>→</span></a>
       </div>
-
-      <div className="platform-slider-window">
-        <div className="platform-slider-track" aria-live="off">
-          {loop.map((casino, position) => {
-            const name = casino.name || "BetBass";
-            const logo = faviconFor(casino);
-            return (
-              <a
-                key={String(casino.slug || name) + "-" + position}
-                href={casino.slug ? "/casinos/" + casino.slug : "#directory"}
-                className="platform-slide-card"
-              >
-                <span className="platform-slide-logo">
-                  {logo ? (
-                    // eslint-disable-next-line @next/next/no-img-element
-                    <img src={logo} alt="" loading="lazy" />
-                  ) : (
-                    initial(name)
-                  )}
-                </span>
-                <span className="platform-slide-name">{name}</span>
-                <small>{casino.operator_type === "both" ? "CASINO + BETTING" : String(casino.operator_type || casino.category || "PLATFORM").toUpperCase()}</small>
-              </a>
-            );
-          })}
+      <div className="platform-viewport" dir="ltr">
+        <div className="platform-track" style={{ transform: `translateX(${-active * 176}px)` }}>
+          {items.map((casino, index) => (
+            <a key={casino.slug || `${casino.name}-${index}`} href={casino.slug ? `/casinos/${casino.slug}` : "#directory"} className="platform-slide-card">
+              <span className="platform-logo-box">{casino.logo_url ? <img src={casino.logo_url} alt="" loading="lazy" /> : <span>{String(casino.name || "B").slice(0, 1).toUpperCase()}</span>}</span>
+              <span className="platform-slide-name">{casino.name || "Platform"}</span>
+              <span className="platform-slide-meta">{casino.category || "Betting & casino"}</span><span className="platform-slide-arrow">↗</span>
+            </a>
+          ))}
         </div>
       </div>
-
-      <div className="platform-slider-dots" aria-hidden="true">
-        <i className="active" /><i /><i /><i /><i />
+      <div className="platform-slider-controls">
+        <button type="button" aria-label="Previous platform" onClick={() => setActive((v) => (v - 1 + items.length) % items.length)}>←</button>
+        <div className="platform-dots" aria-hidden="true">{items.slice(0, Math.min(items.length, 6)).map((_, i) => <span key={i} className={i === active % 6 ? "active" : ""} />)}</div>
+        <button type="button" aria-label="Next platform" onClick={() => setActive((v) => (v + 1) % items.length)}>→</button>
       </div>
     </section>
   );
