@@ -3,8 +3,6 @@
 import { useEffect, useRef, useState } from "react";
 import { casinoLogoFallbackUrl, casinoLogoUrl, initials } from "../lib/casinoLogo";
 
-type SliderLogoCasino = Pick<Casino, "logo_url" | "website_url" | "slug">;
-
 type Casino = {
   slug?: string;
   name?: string;
@@ -116,7 +114,7 @@ export default function PlatformSlider({ casinos }: { casinos: Casino[] }) {
       >
         <div ref={trackRef} className="platform-track">
           {loopItems.map((casino, index) => {
-            const logoUrl = casinoLogoUrl(casino as SliderLogoCasino);
+            const logoUrl = casinoLogoUrl(casino);
             const href = casino.slug ? "/casinos/" + casino.slug : "#directory";
             return (
               <a
@@ -135,7 +133,7 @@ export default function PlatformSlider({ casinos }: { casinos: Casino[] }) {
                   {logoUrl ? (
                     <img src={logoUrl} alt="" loading="lazy" referrerPolicy="no-referrer" draggable={false}
                       onError={(e) => {
-                        const fallbackUrl = casinoLogoFallbackUrl(casino as SliderLogoCasino);
+                        const fallbackUrl = casinoLogoFallbackUrl(casino);
                         if (fallbackUrl && e.currentTarget.src !== new URL(fallbackUrl, window.location.origin).href) {
                           e.currentTarget.src = fallbackUrl;
                           return;
