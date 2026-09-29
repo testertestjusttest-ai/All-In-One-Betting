@@ -115,17 +115,30 @@ export default function PlatformSlider({ casinos }: { casinos: Casino[] }) {
         <div ref={trackRef} className="platform-track">
           {loopItems.map((casino, index) => {
             const logoUrl = casinoLogoUrl(casino);
-            const href = casino.slug ? "/casinos/" + casino.slug : "#directory";
+            const href = casino.affiliate_url || (casino.slug ? "/casinos/" + casino.slug : "#directory");
             return (
               <a
                 key={(casino.slug || casino.name || "platform") + "-" + index}
                 href={href}
                 className="platform-slide-card"
                 aria-label={"Open " + (casino.name || "platform")}
-                target={undefined}
-                rel={undefined}
+                target={casino.affiliate_url ? "_self" : undefined}
+                rel={casino.affiliate_url ? "nofollow sponsored" : undefined}
                 onClick={(event) => {
-                  if (dragging) event.preventDefault();
+                  if (dragging) {
+                    event.preventDefault();
+                    return;
+                  }
+                  if (casino.affiliate_url) {
+                    event.preventDefault();
+                    void fetch("/api/click", {
+                      method: "POST",
+                      headers: { "content-type": "application/json" },
+                      body: JSON.stringify({ casinoId: casino.id }),
+                      keepalive: true,
+                    }).catch(() => {});
+                    window.location.href = casino.affiliate_url;
+                  }
                 }}
                 draggable={false}
               >
