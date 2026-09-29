@@ -1,7 +1,8 @@
 import type { MetadataRoute } from "next";
 import { supabase } from "../lib/supabase";
+import { SITE_URL } from "../lib/seo";
 
-const base = "https://betbass.vercel.app";
+const base = SITE_URL;
 const categories = ["betting-sites","online-casinos","sportsbooks","casino-bonuses","betting-bonuses","bangladesh-betting-sites"];
 const informational = ["about","privacy","terms","responsible-gambling"];
 
