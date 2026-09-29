@@ -3,7 +3,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import CasinoDirectory from "../../components/CasinoDirectory";
 import { supabase } from "../../../lib/supabase";
-import { COUNTRY_NAMES, SITE_URL, countryName, countryPath } from "../../../lib/seo";
+import { SITE_URL, countryName, countryPath } from "../../../lib/seo";
 
 type Props = { params: Promise<{ country: string }> };
 
@@ -44,7 +44,6 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 export default async function CountryPage({ params }: Props) {
   const { country } = await params;
   const code = country.toUpperCase();
-  if (!COUNTRY_NAMES[code]) notFound();
   const casinos = await getCountryData(code);
   if (!casinos.length) notFound();
   const name = countryName(code);
