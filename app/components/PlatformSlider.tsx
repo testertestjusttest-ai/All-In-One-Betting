@@ -36,7 +36,7 @@ export default function PlatformSlider({ casinos }: { casinos: Casino[] }) {
       last = now;
 
       if (!paused && !dragging) {
-        viewport.scrollLeft += dt * 0.045;
+        viewport.scrollLeft += dt * 0.022;
         const half = viewport.scrollWidth / 2;
         if (half > 0 && viewport.scrollLeft >= half) viewport.scrollLeft -= half;
       }
