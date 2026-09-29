@@ -113,15 +113,15 @@ export default function PlatformSlider({ casinos }: { casinos: Casino[] }) {
       >
         <div ref={trackRef} className="platform-track">
           {loopItems.map((casino, index) => {
-            const href = casino.affiliate_url || casino.website_url || (casino.slug ? "/casinos/" + casino.slug : "#directory");
+            const href = casino.affiliate_url || (casino.slug ? "/casinos/" + casino.slug : "#directory");
             return (
               <a
                 key={(casino.slug || casino.name || "platform") + "-" + index}
                 href={href}
                 className="platform-slide-card"
                 aria-label={"Open " + (casino.name || "platform")}
-                target={href.startsWith("http") ? "_blank" : undefined}
-                rel={href.startsWith("http") ? "nofollow sponsored noopener" : undefined}
+                target={casino.affiliate_url ? "_blank" : undefined}
+                rel={casino.affiliate_url ? "nofollow sponsored noopener" : undefined}
                 onClick={(event) => {
                   if (dragging) event.preventDefault();
                 }}
