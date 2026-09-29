@@ -46,6 +46,17 @@ async function getCasinos() {
   return data ?? [];
 }
 
+function platformLogo(casino: any) {
+  if (casino.logo_url) return casino.logo_url;
+  if (casino.website_url) {
+    try {
+      const domain = new URL(casino.website_url).hostname.replace(/^www\./, "");
+      return "https://www.google.com/s2/favicons?domain=" + encodeURIComponent(domain) + "&sz=128";
+    } catch {}
+  }
+  return null;
+}
+
 function getCountryStats(casinos: any[]) {
   const counts = new Map<string, number>();
   for (const casino of casinos) {
@@ -84,7 +95,14 @@ export default async function Home() {
 
       <nav className="site-nav mx-auto flex max-w-7xl items-center justify-between px-5 py-5 sm:px-6">
         <a href="/" className="brand-mark" aria-label="BetBass home">
-          <span className="brand-logo" aria-hidden="true"><span className="brand-logo-b">B</span><span className="brand-logo-glow" /></span>
+          <span className="brand-logo" aria-hidden="true">
+            <svg viewBox="0 0 72 72" role="img" aria-label="BetBass logo" className="brand-logo-svg">
+              <defs><linearGradient id="bbLogoGradient" x1="8" y1="6" x2="64" y2="68"><stop offset="0%" stopColor="#9b5cff"/><stop offset="52%" stopColor="#6f5cff"/><stop offset="100%" stopColor="#19d9ff"/></linearGradient></defs>
+              <path d="M22 8h28c9 0 16 7 16 16v24c0 9-7 16-16 16H22C13 64 6 57 6 48V24C6 15 13 8 22 8Z" fill="url(#bbLogoGradient)" stroke="rgba(255,255,255,.55)" strokeWidth="1.5"/>
+              <path d="M27 20v32M28 21h13c7 0 11 3 11 8 0 3-2 6-5 7 4 1 7 4 7 8 0 5-5 8-12 8H28Zm7 6v6h6c3 0 4-1 4-3s-1-3-4-3Zm0 12v7h7c3 0 5-1 5-4 0-2-2-3-5-3Z" fill="#fff"/>
+              <path d="M14 54 58 14" stroke="rgba(255,255,255,.18)" strokeWidth="2"/>
+            </svg>
+          </span>
           <span className="brand-wordmark">Bet<span className="gradient-text">Bass</span><small>BET SMART • PLAY BIG</small></span>
         </a>
         <div className="hidden items-center gap-7 text-sm text-white/60 md:flex">
