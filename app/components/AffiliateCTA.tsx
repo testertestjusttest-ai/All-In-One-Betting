@@ -37,7 +37,7 @@ export default function AffiliateCTA({
       disabled={busy}
       className="mt-6 w-full rounded-2xl bg-white px-5 py-4 text-center font-black text-black transition hover:-translate-y-0.5 hover:bg-white/90 disabled:opacity-60"
     >
-      {busy ? "Opening…" : label || "Claim offer"} →
+      {busy ? "Opening…" : label || "Join Now"} →
     </button>
   );
 }
