@@ -113,7 +113,8 @@ export default function PlatformSlider({ casinos }: { casinos: Casino[] }) {
         aria-label="Swipe or drag to browse platforms"
       >
         <div ref={trackRef} className="platform-track">
-          {loopItems.map((casino, index) => {\n            const logoUrl = casinoLogoUrl(casino);
+          {loopItems.map((casino, index) => {
+            const logoUrl = casinoLogoUrl(casino);
             const href = casino.slug ? "/casinos/" + casino.slug : "#directory";
             return (
               <a
