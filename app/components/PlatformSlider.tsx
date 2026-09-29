@@ -7,7 +7,19 @@ type Casino = {
   name?: string;
   category?: string;
   logo_url?: string | null;
+  website_url?: string | null;
 };
+
+function platformLogo(casino: Casino) {
+  if (casino.logo_url) return casino.logo_url;
+  if (casino.website_url) {
+    try {
+      const host = new URL(casino.website_url).hostname.replace(/^www\./, "");
+      return "https://www.google.com/s2/favicons?domain=" + encodeURIComponent(host) + "&sz=128";
+    } catch {}
+  }
+  return "";
+}
 
 export default function PlatformSlider({ casinos }: { casinos: Casino[] }) {
   const items = useMemo(() => casinos.filter(Boolean).slice(0, 12), [casinos]);
@@ -47,9 +59,9 @@ export default function PlatformSlider({ casinos }: { casinos: Casino[] }) {
               aria-label={"Open " + (casino.name || "platform")}
             >
               <span className="platform-slide-logo">
-                {casino.logo_url ? (
+                {platformLogo(casino) ? (
                   // eslint-disable-next-line @next/next/no-img-element
-                  <img src={casino.logo_url} alt="" loading="lazy" referrerPolicy="no-referrer" />
+                  <img src={platformLogo(casino)} alt="" loading="lazy" referrerPolicy="no-referrer" />
                 ) : (
                   <span>{String(casino.name || "B").slice(0, 2).toUpperCase()}</span>
                 )}
