@@ -1,70 +1,37 @@
 import type { Metadata } from "next";
 import Script from "next/script";
 import "./globals.css";
-
-const siteUrl = "https://betbass.vercel.app";
+import { SITE_URL } from "../lib/seo";
 
 export const metadata: Metadata = {
-  metadataBase: new URL(siteUrl),
-  title: {
-    default: "BetBass — Betting & Casino Comparison Directory",
-    template: "%s | BetBass"
-  },
-  description: "BetBass compares betting sites, online casinos, sportsbook platforms, bonuses, payment methods, licensing and country availability in one directory.",
-  keywords: [
-    "BetBass", "betting sites", "online casinos", "casino comparison", "sportsbook comparison",
-    "betting site comparison", "casino bonuses", "sports betting", "online betting", "casino sites",
-    "betting platforms", "casino platforms"
-  ],
+  metadataBase: new URL(SITE_URL),
+  title: { default: "BetBass — Betting & Casino Comparison Directory", template: "%s | BetBass" },
+  description: "BetBass compares betting sites, online casinos, sportsbook platforms, offers, payment methods, licensing and country availability in one structured directory.",
   applicationName: "BetBass",
   category: "entertainment",
   alternates: {
     canonical: "/",
-    languages: {
-      "en-US": siteUrl,
-      "bn-BD": `${siteUrl}/bn`,
-      "x-default": siteUrl
-    }
+    languages: { "en-US": SITE_URL, "bn-BD": SITE_URL + "/bn", "x-default": SITE_URL },
   },
-  robots: { index: true, follow: true, googleBot: { index: true, follow: true, "max-image-preview": "large", "max-snippet": -1, "max-video-preview": -1 } },
-  openGraph: {
-    title: "BetBass — Betting & Casino Comparison Directory",
-    description: "Compare betting sites, online casinos, sportsbook platforms, offers, payments and availability.",
-    type: "website",
-    siteName: "BetBass",
-    url: siteUrl,
-    locale: "en_US"
-  },
-  twitter: { card: "summary_large_image", title: "BetBass — Betting & Casino Comparison Directory", description: "Compare betting sites, online casinos, sportsbook platforms and offers." }
+  robots: { index:true, follow:true, googleBot:{ index:true, follow:true, "max-image-preview":"large", "max-snippet":-1, "max-video-preview":-1 } },
+  openGraph: { title:"BetBass — Betting & Casino Comparison Directory", description:"Compare betting sites, online casinos, sportsbook platforms, offers, payments and GEO availability.", type:"website", siteName:"BetBass", url:SITE_URL, locale:"en_US" },
+  twitter: { card:"summary_large_image", title:"BetBass — Betting & Casino Comparison Directory", description:"Compare betting sites, online casinos, sportsbook platforms and offers." },
+  icons: { icon:"/icon.svg", shortcut:"/icon.svg", apple:"/icon.svg" },
 };
 
-const organizationJsonLd = {
-  "@context": "https://schema.org",
-  "@type": "Organization",
-  name: "BetBass",
-  url: siteUrl,
-  description: "Betting and casino comparison and affiliate directory."
-};
-
-const websiteJsonLd = {
-  "@context": "https://schema.org",
-  "@type": "WebSite",
-  name: "BetBass",
-  alternateName: ["Bet Bass", "BetBass betting", "BetBass casino"],
-  url: siteUrl
-};
+const organizationJsonLd = { "@context":"https://schema.org", "@type":"Organization", name:"BetBass", url:SITE_URL, description:"Betting and casino comparison and affiliate directory." };
+const websiteJsonLd = { "@context":"https://schema.org", "@type":"WebSite", name:"BetBass", alternateName:["Bet Bass","BetBass betting","BetBass casino"], url:SITE_URL };
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
     <html lang="en">
       <head>
         <meta name="monetag" content="2fec36974dceb787f5c29afffa52ed9b" />
-        <meta name="theme-color" content="#080812" />
+        <meta name="theme-color" content="#06060d" />
         <meta name="mobile-web-app-capable" content="yes" />
         <meta name="apple-mobile-web-app-capable" content="yes" />
         <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
         <meta name="apple-mobile-web-app-title" content="BetBass" />
-        <link rel="icon" href="/icon.svg" type="image/svg+xml" />
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationJsonLd) }} />
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteJsonLd) }} />
       </head>
