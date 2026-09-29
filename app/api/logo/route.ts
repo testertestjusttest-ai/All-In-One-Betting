@@ -11,6 +11,7 @@ export async function GET(request: Request) {
   }
 
   const sources = [
+    `https://logos.hunter.io/${encodeURIComponent(domain)}`,
     `https://www.google.com/s2/favicons?domain=${encodeURIComponent(domain)}&sz=128`,
     `https://icons.duckduckgo.com/ip3/${encodeURIComponent(domain)}.ico`,
   ];
