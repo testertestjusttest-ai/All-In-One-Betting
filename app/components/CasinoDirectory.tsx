@@ -3,6 +3,7 @@
 import { motion } from "framer-motion";
 import { useMemo, useState } from "react";
 import type { Casino } from "../../lib/supabase";
+import { casinoLogoUrl, initials } from "../../lib/casinoLogo";
 
 type OfferCasino = Casino & {
   bonus_percent?: number | null;
@@ -15,44 +16,6 @@ type OfferCasino = Casino & {
   deposit_methods?: string[];
   withdrawal_methods?: string[];
 };
-
-const logoDomains: Record<string, string> = {
-  tk999: "tk999.com", ck999: "ck999.com", bk999: "bk999.com", jeetwin: "jeetwin.com",
-  krikiya: "krikya.io", baji: "baji.com", crickex: "crickex.com", jeetbuzz: "jeetbuzz.com",
-  nagad88: "nagad88.com", babu88: "babu88.com", jaya9: "jaya9.com", mcw: "mcw.com",
-  linebet: "linebet.com", megapari: "megapari.com", "888starz": "888starz.com", betjili: "betjili.com",
-  "4rabet": "4rabet.com", winwin: "winwin.bet", rajabaji: "rajabaji.com", pbc88: "pbc88.com",
-  betvisa: "bv88visa.com",
-  "10bet": "10bet.com", "1win": "1win.com", "1xbet": "1xbet.com", "22bet": "22bet.com",
-  "888casino": "888casino.com", "888sport": "888sport.com", "bc-game": "bc.game",
-  bet365: "bet365.com", betano: "betano.com", betfred: "betfred.com", betmgm: "betmgm.com",
-  betsson: "betsson.com", betvictor: "betvictor.com", betway: "betway.com", betwinner: "betwinner.com",
-  bitstarz: "bitstarz.com", borgata: "borgataonline.com", bwin: "bwin.com",
-  "caesars-sportsbook": "caesars.com", comeon: "comeon.com", coral: "coral.co.uk",
-  dafabet: "dafabet.com", draftkings: "draftkings.com", "fanatics-sportsbook": "fanatics.com",
-  fanduel: "fanduel.com", ggbet: "gg.bet", interwetten: "interwetten.com", ladbrokes: "ladbrokes.com",
-  leovegas: "leovegas.com", marathonbet: "marathonbet.com", melbet: "melbet.com",
-  mostbet: "mostbet.com", "mr-green": "mrgreen.com", "paddy-power": "paddypower.com",
-  parimatch: "parimatch.com", pinnacle: "pinnacle.com", playamo: "playamo.com",
-  rollbit: "rollbit.com", roobet: "roobet.com", sportingbet: "sportingbet.com", stake: "stake.com",
-  thunderpick: "thunderpick.io", unibet: "unibet.com", vavada: "vavada.com", "william-hill": "williamhill.com"
-};
-
-function initials(name: string) {
-  return name.split(/\s+/).slice(0, 2).map(x => x[0]).join("").toUpperCase();
-}
-
-function logoFor(casino: Casino) {
-  if (casino.logo_url) return casino.logo_url;
-  if (casino.website_url) {
-    try {
-      const domain = new URL(casino.website_url).hostname.replace(/^www\./, "");
-      return `https://www.google.com/s2/favicons?domain=${encodeURIComponent(domain)}&sz=128`;
-    } catch {}
-  }
-  const domain = logoDomains[casino.slug];
-  return domain ? `https://www.google.com/s2/favicons?domain=${encodeURIComponent(domain)}&sz=128` : null;
-}
 
 function dataCompleteness(casino: OfferCasino) {
   const checks = [
@@ -131,12 +94,13 @@ export default function CasinoDirectory({ casinos }: { casinos: Casino[] }) {
       <div className="grid grid-cols-2 gap-3 sm:gap-5 lg:grid-cols-2">
         {filtered.map((casino, i) => {
           const rating = Number(casino.public_rating ?? 0);
-          const logoUrl = logoFor(casino);
+          const logoUrl = casinoLogoUrl(casino);
           const hasAffiliate = Boolean(casino.affiliate_url);
           const completeness = dataCompleteness(casino);
 
           return (
             <motion.article
+              id={`casino-${casino.slug}`}
               key={casino.id}
               role={hasAffiliate ? "button" : undefined}
               tabIndex={hasAffiliate ? 0 : -1}
