@@ -95,12 +95,28 @@ export default async function Home() {
         <a href="#directory" className="rounded-full border border-white/15 bg-white/5 px-4 py-2 text-xs font-bold text-white transition hover:border-violet-300/40 hover:bg-white/10">Explore</a>
       </nav>
 
-      <section className="hero-shell mx-auto max-w-7xl px-5 pb-16 pt-10 sm:px-6 md:pb-24 md:pt-16">
+      <section className="platform-starter mx-auto max-w-7xl px-5 pt-4 sm:px-6">
+        <div className="platform-starter-head">
+          <div><p className="section-kicker">PLATFORM DIRECTORY</p><strong>Start with available platforms</strong></div>
+          <a href="#directory">View all →</a>
+        </div>
+        <div className="platform-starter-row">
+          {casinos.slice(0, 6).map((casino:any) => (
+            <a key={casino.slug} href={"/casinos/" + casino.slug} className="platform-chip">
+              <span className="platform-chip-logo">{String(casino.name || "B").slice(0,1)}</span>
+              <span><strong>{casino.name}</strong><small>{casino.category || "Platform"}</small></span>
+              <b>↗</b>
+            </a>
+          ))}
+        </div>
+      </section>
+
+      <section className="hero-shell mx-auto max-w-7xl px-5 pb-10 pt-7 sm:px-6 md:pb-16 md:pt-10">
         <div className="hero-grid">
           <div className="relative z-10">
             <div className="eyebrow"><span className="eyebrow-dot" />GLOBAL BETTING & CASINO DIRECTORY</div>
-            <h1 className="hero-title">Compare platforms with <span className="hero-title-accent">clarity, context & confidence.</span></h1>
-            <p className="hero-copy">Explore structured profiles for betting sites, online casinos and sportsbooks. Compare published offers, payment information, licensing notes and GEO availability before leaving BetBass.</p>
+            <h1 className="hero-title">Compare betting & casino platforms <span className="hero-title-accent">with clarity.</span></h1>
+            <p className="hero-copy">Offers, payments, licensing notes and GEO availability — organized so you can find the key information faster.</p>
             <div className="hero-actions">
               <a href="#directory" className="primary-cta">Browse platforms <span>↗</span></a>
               <a href="/countries" className="secondary-cta">Explore countries</a>
@@ -131,7 +147,7 @@ export default async function Home() {
 
       <MonetagAds placement="top" />
 
-      <section id="directory" className="mx-auto max-w-7xl px-5 py-10 sm:px-6 md:py-16">
+      <section id="directory" className="mx-auto max-w-7xl px-5 py-7 sm:px-6 md:py-12">
         <div className="section-heading">
           <div><p className="section-kicker">DISCOVER</p><h2>Find the right information faster.</h2><p>Search, filter and compare the platforms currently published in the BetBass dataset.</p></div>
           <a href="/methodology" className="method-link">How BetBass works →</a>
