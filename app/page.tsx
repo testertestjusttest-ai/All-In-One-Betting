@@ -5,6 +5,7 @@ import CasinoDirectory from "./components/CasinoDirectory";
 import PlatformSlider from "./components/PlatformSlider";
 import MonetagAds from "./components/MonetagAds";
 import PWAInstall from "./components/PWAInstall";
+import PlatformCarousel from "./components/PlatformCarousel";
 import TrustDisclosure from "./components/TrustDisclosure";
 import PlatformSlider from "./components/PlatformSlider";
 
