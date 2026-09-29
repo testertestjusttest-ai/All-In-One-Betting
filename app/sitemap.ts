@@ -42,7 +42,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       priority: 0.9
     })),
     ...(data ?? [])
-      .filter(c => !c.seo_noindex)
+      .filter(c => Boolean(c.affiliate_url && c.website_url && c.verified_at && c.seo_content && String(c.seo_content).trim().length >= 120 && !c.seo_noindex))
       .map(c => ({
         url: `${base}/casinos/${c.slug}`,
         lastModified: c.updated_at ? new Date(c.updated_at) : contentLastModified,
