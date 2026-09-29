@@ -3,7 +3,7 @@
 import { motion } from "framer-motion";
 import { useMemo, useState } from "react";
 import type { Casino } from "../../lib/supabase";
-import { casinoLogoUrl, initials } from "../lib/casinoLogo";
+import { casinoLogoFallbackUrl, casinoLogoUrl, initials } from "../lib/casinoLogo";
 
 type OfferCasino = Casino & {
   bonus_percent?: number | null;
@@ -132,6 +132,11 @@ export default function CasinoDirectory({ casinos }: { casinos: Casino[] }) {
                       referrerPolicy="no-referrer"
                       className="h-full w-full object-contain"
                       onError={e => {
+                        const fallbackUrl = casinoLogoFallbackUrl(casino);
+                        if (fallbackUrl && e.currentTarget.src !== new URL(fallbackUrl, window.location.origin).href) {
+                          e.currentTarget.src = fallbackUrl;
+                          return;
+                        }
                         e.currentTarget.style.display = "none";
                         const fallback = e.currentTarget.parentElement?.querySelector("[data-logo-fallback]") as HTMLElement | null;
                         if (fallback) fallback.style.display = "block";
