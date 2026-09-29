@@ -83,8 +83,8 @@ export default async function Home() {
 
       <nav className="site-nav mx-auto flex max-w-7xl items-center justify-between px-5 py-5 sm:px-6">
         <a href="/" className="brand-mark" aria-label="BetBass home">
-          <span className="brand-orb">B</span>
-          <span>Bet<span className="gradient-text">Bass</span></span>
+          <span className="brand-logo" aria-hidden="true"><span className="brand-logo-b">B</span><span className="brand-logo-glow" /></span>
+          <span className="brand-wordmark">Bet<span className="gradient-text">Bass</span><small>BET SMART • PLAY BIG</small></span>
         </a>
         <div className="hidden items-center gap-7 text-sm text-white/60 md:flex">
           <a href="#directory" className="nav-link">Directory</a>
@@ -92,26 +92,29 @@ export default async function Home() {
           <a href="/methodology" className="nav-link">Methodology</a>
           <a href="#faq" className="nav-link">FAQ</a>
         </div>
-        <a href="#directory" className="rounded-full border border-white/15 bg-white/5 px-4 py-2 text-xs font-bold text-white transition hover:border-violet-300/40 hover:bg-white/10">Explore</a>
+        <a href="#directory" className="explore-pill"><span className="explore-icon">⌕</span>Explore</a>
       </nav>
 
-      <section className="platform-starter mx-auto max-w-7xl px-5 pt-4 sm:px-6">
+      <section className="platform-starter mx-auto max-w-7xl px-5 pt-4 sm:px-6" aria-label="Top casinos and betting platforms">
         <div className="platform-starter-head">
-          <div><p className="section-kicker">PLATFORM DIRECTORY</p><strong>Start with available platforms</strong></div>
-          <a href="#directory">View all →</a>
+          <div><p className="section-kicker"><span className="section-flame">◆</span> TOP CASINOS & PLATFORMS</p></div>
+          <a href="#directory">View all <span>→</span></a>
         </div>
-        <div className="platform-starter-row">
-          {casinos.slice(0, 6).map((casino:any) => (
-            <a key={casino.slug} href={"/casinos/" + casino.slug} className="platform-chip">
-              <span className="platform-chip-logo">{String(casino.name || "B").slice(0,1)}</span>
-              <span><strong>{casino.name}</strong><small>{casino.category || "Platform"}</small></span>
-              <b>↗</b>
-            </a>
-          ))}
+        <div className="platform-slider">
+          <div className="platform-track">
+            {[...casinos.slice(0, 8), ...casinos.slice(0, 8)].map((casino:any, index:number) => (
+              <a key={casino.slug + "-" + index} href={"/casinos/" + casino.slug} className="platform-chip">
+                <span className="platform-chip-logo">{String(casino.name || "B").slice(0,1).toUpperCase()}</span>
+                <span><strong>{casino.name}</strong><small>{casino.category || "Platform"}</small></span>
+                <b>↗</b>
+              </a>
+            ))}
+          </div>
         </div>
+        <div className="slider-dots" aria-hidden="true"><i className="active" /><i /><i /><i /><i /></div>
       </section>
 
-      <section className="hero-shell mx-auto max-w-7xl px-5 pb-10 pt-7 sm:px-6 md:pb-16 md:pt-10">
+      <section className="hero-shell mx-auto max-w-7xl px-5 pb-10 pt-6 sm:px-6 md:pb-16 md:pt-9">
         <div className="hero-grid">
           <div className="relative z-10">
             <div className="eyebrow"><span className="eyebrow-dot" />GLOBAL BETTING & CASINO DIRECTORY</div>
