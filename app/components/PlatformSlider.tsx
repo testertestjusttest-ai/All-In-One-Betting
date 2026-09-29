@@ -113,7 +113,7 @@ export default function PlatformSlider({ casinos }: { casinos: Casino[] }) {
         aria-label="Swipe or drag to browse platforms"
       >
         <div ref={trackRef} className="platform-track">
-          {loopItems.map((casino, index) => {
+          {loopItems.map((casino, index) => {\n            const logoUrl = casinoLogoUrl(casino);
             const href = casino.affiliate_url || (casino.slug ? "#casino-" + casino.slug : "#directory");
             return (
               <a
@@ -129,7 +129,7 @@ export default function PlatformSlider({ casinos }: { casinos: Casino[] }) {
                 draggable={false}
               >
                 <span className="platform-logo-box">
-                  {casinoLogoUrl(casino) ? (
+                  {logoUrl ? (
                     <img src={casinoLogoUrl(casino) || ""} alt="" loading="lazy" referrerPolicy="no-referrer" draggable={false}
                       onError={(e) => {
                         e.currentTarget.style.display = "none";
@@ -138,7 +138,7 @@ export default function PlatformSlider({ casinos }: { casinos: Casino[] }) {
                       }}
                     />
                   ) : null}
-                  <span data-slider-logo-fallback style={{ display: casinoLogoUrl(casino) ? "none" : "block" }}>{initials(casino.name || "BetBass")}</span>
+                  <span data-slider-logo-fallback style={{ display: logoUrl ? "none" : "block" }}>{initials(casino.name || "BetBass")}</span>
                 </span>
                 <span className="platform-slide-name">{casino.name || "Platform"}</span>
                 <span className="platform-slide-meta">{casino.category || "Betting & casino"}</span>
