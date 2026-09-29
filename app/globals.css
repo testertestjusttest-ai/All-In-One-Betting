@@ -375,3 +375,23 @@ a { text-decoration:none; }
  .brand-logo{width:178px}
  .platform-carousel-track{gap:.55rem;animation-duration:30s}
 }
+/* Final slider behavior: continuous right-to-left, compact mobile-first */
+.platform-slider-window{position:relative;overflow:hidden;padding:.1rem 2rem .35rem}
+.platform-slider-track{display:flex!important;grid-template-columns:none!important;gap:.7rem;width:max-content!important;overflow:visible!important;animation:betbass-platform-rtl 28s linear infinite;will-change:transform}
+.platform-slider:hover .platform-slider-track,.platform-slider.is-paused .platform-slider-track{animation-play-state:paused}
+.platform-slide-card{flex:0 0 158px!important;width:158px!important;min-width:158px!important;height:104px!important}
+.platform-slider-arrow{position:absolute;z-index:5;top:50%;transform:translateY(-50%);display:grid;place-items:center;width:2.45rem;height:2.45rem;border-radius:999px;border:1px solid rgba(124,92,255,.34);background:rgba(20,17,52,.92);color:#fff;font-size:1.8rem;line-height:1;box-shadow:0 10px 28px rgba(0,0,0,.35);pointer-events:none}
+.platform-slider-prev{left:.1rem}.platform-slider-next{right:.1rem}
+.platform-slider-dots{display:flex;justify-content:center;gap:.45rem;padding:.2rem 0 .1rem}
+.platform-slider-dots i{display:block;width:1.75rem;height:.28rem;border-radius:999px;background:rgba(74,101,163,.4)}
+.platform-slider-dots i.active{background:linear-gradient(90deg,#a548ff,#31cfff);box-shadow:0 0 12px rgba(146,72,255,.45)}
+@keyframes betbass-platform-rtl{from{transform:translateX(0)}to{transform:translateX(calc(-50% - .35rem))}}
+@media(max-width:600px){
+  .platform-slider{padding:1rem 0 .15rem}
+  .platform-slider-window{padding-inline:1.75rem}
+  .platform-slide-card{flex-basis:148px!important;width:148px!important;min-width:148px!important;height:94px!important}
+  .platform-slider-track{gap:.55rem;animation-duration:23s}
+  .platform-slider-arrow{width:2rem;height:2rem;font-size:1.45rem}
+  .platform-slider-prev{left:.05rem}.platform-slider-next{right:.05rem}
+}
+@media(prefers-reduced-motion:reduce){.platform-slider-track{animation:none!important;transform:none!important}}
