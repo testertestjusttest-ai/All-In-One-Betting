@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { casinoLogoUrl, initials } from "../lib/casinoLogo";
+import { casinoLogoFallbackUrl, casinoLogoUrl, initials } from "../lib/casinoLogo";
 
 type Casino = {
   slug?: string;
@@ -133,6 +133,11 @@ export default function PlatformSlider({ casinos }: { casinos: Casino[] }) {
                   {logoUrl ? (
                     <img src={logoUrl} alt="" loading="lazy" referrerPolicy="no-referrer" draggable={false}
                       onError={(e) => {
+                        const fallbackUrl = casinoLogoFallbackUrl(casino);
+                        if (fallbackUrl && e.currentTarget.src !== new URL(fallbackUrl, window.location.origin).href) {
+                          e.currentTarget.src = fallbackUrl;
+                          return;
+                        }
                         e.currentTarget.style.display = "none";
                         const f = e.currentTarget.parentElement?.querySelector("[data-slider-logo-fallback]") as HTMLElement | null;
                         if (f) f.style.display = "block";
