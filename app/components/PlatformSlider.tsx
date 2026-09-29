@@ -114,15 +114,15 @@ export default function PlatformSlider({ casinos }: { casinos: Casino[] }) {
       >
         <div ref={trackRef} className="platform-track">
           {loopItems.map((casino, index) => {\n            const logoUrl = casinoLogoUrl(casino);
-            const href = casino.affiliate_url || (casino.slug ? "#casino-" + casino.slug : "#directory");
+            const href = casino.slug ? "/casinos/" + casino.slug : "#directory";
             return (
               <a
                 key={(casino.slug || casino.name || "platform") + "-" + index}
                 href={href}
                 className="platform-slide-card"
                 aria-label={"Open " + (casino.name || "platform")}
-                target={casino.affiliate_url ? "_blank" : undefined}
-                rel={casino.affiliate_url ? "nofollow sponsored noopener" : undefined}
+                target={undefined}
+                rel={undefined}
                 onClick={(event) => {
                   if (dragging) event.preventDefault();
                 }}
@@ -130,7 +130,7 @@ export default function PlatformSlider({ casinos }: { casinos: Casino[] }) {
               >
                 <span className="platform-logo-box">
                   {logoUrl ? (
-                    <img src={casinoLogoUrl(casino) || ""} alt="" loading="lazy" referrerPolicy="no-referrer" draggable={false}
+                    <img src={logoUrl ? `/api/logo?domain=${encodeURIComponent(new URL(logoUrl).hostname)}` : ""} alt="" loading="lazy" referrerPolicy="no-referrer" draggable={false}
                       onError={(e) => {
                         e.currentTarget.style.display = "none";
                         const f = e.currentTarget.parentElement?.querySelector("[data-slider-logo-fallback]") as HTMLElement | null;
