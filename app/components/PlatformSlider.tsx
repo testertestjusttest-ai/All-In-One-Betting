@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import { casinoLogoFallbackUrl, casinoLogoUrl, initials } from "../lib/casinoLogo";
 
 type Casino = {
+  id?: string;
   slug?: string;
   name?: string;
   category?: string;
@@ -171,7 +172,7 @@ export default function PlatformSlider({ casinos }: { casinos: Casino[] }) {
       <div className="platform-slider-controls">
         <button type="button" className="slider-control-arrow" onClick={() => moveBy(-1)} aria-label="Move platforms left">‹</button>
         <div className="platform-dots" aria-hidden="true">
-          {items.slice(0, 5).map((_, index) => <span key={index} className={index === 0 ? "active" : ""} />)}
+          {items.map((_, index) => <span key={index} className={index === 0 ? "active" : ""} />)}
         </div>
         <button type="button" className="slider-control-arrow" onClick={() => moveBy(1)} aria-label="Move platforms right">›</button>
       </div>
