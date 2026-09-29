@@ -63,7 +63,11 @@ export default function CasinoDirectory({ casinos }: { casinos: Casino[] }) {
     setCompare(current => current.includes(id) ? current.filter(x => x !== id) : current.length < 3 ? [...current, id] : current);
   }
 
-  async function trackAndOpen(casino: Casino) {
+  function openProfile(casino: Casino) {
+    window.location.href = casino.slug ? `/casinos/${casino.slug}` : "#directory";
+  }
+
+  async function trackAffiliateAndOpen(casino: Casino) {
     if (!casino.affiliate_url) return;
     try {
       await fetch("/api/click", {
@@ -102,21 +106,21 @@ export default function CasinoDirectory({ casinos }: { casinos: Casino[] }) {
             <motion.article
               id={`casino-${casino.slug}`}
               key={casino.id}
-              role={hasAffiliate ? "button" : undefined}
-              tabIndex={hasAffiliate ? 0 : -1}
-              aria-label={hasAffiliate ? `Open ${casino.name} affiliate offer` : `${casino.name} affiliate link not configured`}
-              onClick={() => trackAndOpen(casino)}
+              role="link"
+              tabIndex={0}
+              aria-label={`View ${casino.name} platform profile`}
+              onClick={() => openProfile(casino)}
               onKeyDown={e => {
-                if (hasAffiliate && (e.key === "Enter" || e.key === " ")) {
+                if (e.key === "Enter" || e.key === " ") {
                   e.preventDefault();
-                  void trackAndOpen(casino);
+                  openProfile(casino);
                 }
               }}
               initial={{ opacity: 0, y: 16 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ delay: i * 0.03 }}
-              className={`glass group min-w-0 rounded-2xl p-3 transition sm:rounded-3xl sm:p-5 ${hasAffiliate ? "cursor-pointer hover:-translate-y-1 hover:border-violet-400/30" : "cursor-not-allowed opacity-80"}`}
+              className="glass group min-w-0 cursor-pointer rounded-2xl border border-white/10 p-3 transition duration-300 hover:-translate-y-1 hover:border-violet-400/30 hover:shadow-[0_20px_70px_rgba(124,58,237,.14)] sm:rounded-3xl sm:p-5"
             >
               <div className="flex items-start gap-2 sm:gap-4">
                 <div className="flex h-12 w-12 shrink-0 items-center justify-center overflow-hidden rounded-xl border border-white/10 bg-white p-1 sm:h-16 sm:w-16 sm:rounded-2xl">
@@ -176,8 +180,9 @@ export default function CasinoDirectory({ casinos }: { casinos: Casino[] }) {
                 {casino.tags.slice(0, 3).map(tag => <span key={tag} className="max-w-full truncate rounded-full border border-white/8 bg-white/4 px-2 py-1 text-[9px] text-white/50 sm:px-2.5 sm:text-[11px]">{tag}</span>)}
               </div>
 
-              <div className="mt-3 rounded-xl border border-white/10 bg-white/5 px-3 py-2.5 text-center text-xs font-bold sm:mt-5 sm:rounded-2xl sm:px-4 sm:py-3 sm:text-sm">
-                {hasAffiliate ? (casino.claim_label || "Open affiliate offer") : "Affiliate link not configured"}
+              <div className="mt-4 grid grid-cols-2 gap-2 sm:mt-5">
+                <button type="button" onClick={e => { e.stopPropagation(); openProfile(casino); }} className="rounded-xl border border-white/10 bg-white/5 px-3 py-2.5 text-xs font-bold text-white/75 transition hover:bg-white/10 sm:rounded-2xl sm:py-3 sm:text-sm">View profile</button>
+                <button type="button" disabled={!hasAffiliate} onClick={e => { e.stopPropagation(); void trackAffiliateAndOpen(casino); }} className="rounded-xl bg-gradient-to-r from-violet-400 to-cyan-300 px-3 py-2.5 text-xs font-black text-black transition hover:-translate-y-0.5 disabled:cursor-not-allowed disabled:opacity-35 sm:rounded-2xl sm:py-3 sm:text-sm">{hasAffiliate ? (casino.claim_label || "Join Now") : "No offer link"}</button>
               </div>
             </motion.article>
           );
