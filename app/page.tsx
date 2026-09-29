@@ -5,6 +5,7 @@ import CasinoDirectory from "./components/CasinoDirectory";
 import MonetagAds from "./components/MonetagAds";
 import PWAInstall from "./components/PWAInstall";
 import TrustDisclosure from "./components/TrustDisclosure";
+import PlatformSlider from "./components/PlatformSlider";
 
 export const revalidate = 300;
 
