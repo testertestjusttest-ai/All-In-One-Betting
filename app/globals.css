@@ -107,3 +107,48 @@ a { text-decoration:none; }
 .platform-chip small{font-size:.55rem}
 .platform-chip b{position:absolute;top:.55rem;right:.6rem;font-size:.65rem}
 @media(max-width:600px){.platform-chip{flex-basis:150px;min-width:150px;height:90px}.platform-chip-logo{width:2.45rem;height:2.45rem;flex-basis:2.45rem}}
+
+/* BetBass premium brand + RTL platform carousel */
+.brand-mark{gap:.72rem}
+.brand-logo{position:relative;display:grid;place-items:center;width:3.05rem;height:3.05rem;flex:0 0 3.05rem;filter:drop-shadow(0 0 20px rgba(94,92,255,.3))}
+.brand-logo-svg{width:100%;height:100%;display:block}
+.brand-wordmark{display:flex;align-items:baseline;gap:.02em;position:relative;font-size:1.48rem;font-weight:950;letter-spacing:-.055em;line-height:1}
+.brand-wordmark small{position:absolute;left:.05rem;top:1.7rem;white-space:nowrap;font-size:.43rem;letter-spacing:.22em;color:rgba(157,184,255,.72);font-weight:800}
+.explore-pill{display:flex;align-items:center;gap:.5rem;border:1px solid rgba(124,132,255,.38);border-radius:999px;padding:.7rem 1rem;color:white;background:rgba(255,255,255,.035);font-size:.82rem;font-weight:850;box-shadow:inset 0 1px rgba(255,255,255,.06),0 0 24px rgba(72,74,255,.08);transition:.2s ease}
+.explore-pill:hover{border-color:rgba(93,216,255,.65);transform:translateY(-1px)}
+.explore-icon{font-size:1.3rem;line-height:.6;transform:rotate(-20deg)}
+.platform-starter{padding-top:.2rem}
+.platform-starter-head{margin-bottom:.25rem}
+.platform-starter-head .section-kicker{display:flex;align-items:center;gap:.65rem}
+.section-flame{display:inline-grid;place-items:center;color:#d96cff;font-size:1rem;text-shadow:0 0 18px rgba(217,108,255,.65)}
+.platform-slider{position:relative;overflow:hidden;margin-top:.45rem;padding:.25rem 0 .65rem}
+.platform-slider::before,.platform-slider::after{content:"";position:absolute;top:0;bottom:0;width:4rem;z-index:3;pointer-events:none}
+.platform-slider::before{left:0;background:linear-gradient(90deg,#06060d,transparent)}
+.platform-slider::after{right:0;background:linear-gradient(270deg,#06060d,transparent)}
+.platform-track{display:flex;gap:.7rem;width:max-content;animation:betbass-marquee 30s linear infinite;will-change:transform}
+.platform-slider:hover .platform-track{animation-play-state:paused}
+.platform-chip{display:flex;align-items:center;gap:.65rem;width:170px;min-width:170px;height:82px;padding:.65rem;border:1px solid rgba(74,117,255,.28);border-radius:1.05rem;background:linear-gradient(145deg,rgba(9,20,58,.9),rgba(11,10,35,.82));box-shadow:inset 0 1px rgba(255,255,255,.07),0 12px 28px rgba(0,0,0,.24);transition:.2s ease}
+.platform-chip:hover{border-color:rgba(67,220,255,.75);transform:translateY(-2px);box-shadow:0 0 28px rgba(42,132,255,.16)}
+.platform-chip-logo{display:grid;place-items:center;flex:0 0 48px;width:48px;height:48px;overflow:hidden;border-radius:.85rem;background:rgba(255,255,255,.94);border:1px solid rgba(255,255,255,.12);font-size:1.05rem;font-weight:950;color:#101024}
+.platform-chip-logo img{width:100%;height:100%;object-fit:contain;padding:5px}
+.platform-chip strong{display:block;max-width:82px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:.72rem;color:#fff}
+.platform-chip small{display:block;max-width:82px;margin-top:.22rem;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:rgba(255,255,255,.35);font-size:.53rem}
+.platform-chip b{margin-left:auto;color:#9eabff;font-size:.8rem}
+.slider-dots{display:flex;justify-content:center;gap:.55rem;padding:.15rem 0 .25rem}
+.slider-dots i{display:block;width:28px;height:7px;border-radius:999px;background:rgba(91,122,184,.32)}
+.slider-dots i.active{background:linear-gradient(90deg,#a548ff,#6d83ff);box-shadow:0 0 14px rgba(146,72,255,.5)}
+@keyframes betbass-marquee{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+@media(max-width:600px){
+  .site-nav{padding-top:1rem!important;padding-bottom:1rem!important}
+  .brand-logo{width:2.8rem;height:2.8rem;flex-basis:2.8rem}
+  .brand-wordmark{font-size:1.34rem}
+  .brand-wordmark small{font-size:.38rem;top:1.55rem;letter-spacing:.18em}
+  .explore-pill{padding:.62rem .82rem;font-size:.75rem}
+  .platform-chip{width:158px;min-width:158px;height:76px}
+  .platform-chip-logo{width:43px;height:43px;flex-basis:43px}
+  .platform-chip strong{max-width:74px;font-size:.67rem}
+  .platform-chip small{max-width:74px}
+  .platform-track{gap:.55rem;animation-duration:24s}
+  .slider-dots{padding-top:0}
+}
+@media(prefers-reduced-motion:reduce){.platform-track{animation:none}}
