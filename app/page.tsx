@@ -97,7 +97,7 @@ export default async function Home() {
 
       <nav className="site-nav mx-auto flex max-w-7xl items-center justify-between px-5 py-5 sm:px-6">
         <a href="/" className="brand-mark" aria-label="BetBass home">
-          <span className="brand-logo" aria-hidden="true"><img src="/betbass-logo.svg" alt="" /></span>
+          <span className="brand-logo" aria-hidden="true"><svg viewBox="0 0 64 64" role="img" aria-label="BetBass logo"><defs><linearGradient id="bb-logo-g" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stopColor="#7c3aed"/><stop offset=".55" stopColor="#a855f7"/><stop offset="1" stopColor="#22d3ee"/></linearGradient></defs><rect x="2" y="2" width="60" height="60" rx="18" fill="#080819" stroke="url(#bb-logo-g)" strokeWidth="3"/><path d="M22 17h16c8 0 12 4 12 9 0 4-2 6-5 8 4 2 7 5 7 10 0 7-5 11-14 11H22V17Zm9 7v8h5c3 0 5-1 5-4s-2-4-5-4h-5Zm0 15v9h6c4 0 6-2 6-5s-2-4-6-4h-6Z" fill="#fff"/><path d="M17 50c10 6 23 6 31 0" fill="none" stroke="#22d3ee" strokeWidth="2" strokeLinecap="round" opacity=".8"/></svg></span>
           <span className="brand-wordmark">Bet<span className="gradient-text">Bass</span><small>BET SMART • PLAY BIG</small></span>
         </a>
         <div className="hidden items-center gap-7 text-sm text-white/60 md:flex">
