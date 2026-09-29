@@ -268,3 +268,41 @@ a { text-decoration:none; }
   .platform-slider-arrow{width:2.35rem;height:2.35rem;margin-top:-1.18rem;font-size:1.45rem}
   .platform-slider-prev{left:.05rem}.platform-slider-next{right:.05rem}
 }
+
+/* Platform slider — final responsive presentation */
+.platform-slider{position:relative;max-width:80rem;margin:0 auto;padding:.75rem 1.25rem .45rem;overflow:hidden}
+.platform-slider-head{display:flex;align-items:center;justify-content:space-between;gap:1rem;margin-bottom:.65rem}
+.platform-slider-title{display:flex;align-items:center;gap:.7rem}
+.platform-slider-title .section-kicker{margin:0}
+.platform-slider-title h2{margin-top:.15rem;font-size:.92rem;line-height:1.1;font-weight:900;letter-spacing:-.02em}
+.platform-flame{display:grid;place-items:center;width:2rem;height:2rem;border-radius:.7rem;color:#d66cff;background:rgba(168,85,247,.1);box-shadow:0 0 20px rgba(168,85,247,.14)}
+.platform-slider-head>a{color:#aeb5ff;font-size:.72rem;font-weight:850;white-space:nowrap}
+.platform-slider-window{position:relative;overflow:hidden}
+.platform-slider-track{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:.65rem;transition:transform .5s cubic-bezier(.2,.8,.2,1);direction:ltr}
+.platform-slide-card{position:relative;min-width:0;height:86px;padding:.65rem;border:1px solid rgba(73,112,255,.3);border-radius:1.05rem;background:linear-gradient(145deg,rgba(10,24,61,.95),rgba(10,10,28,.9));box-shadow:inset 0 1px rgba(255,255,255,.08),0 12px 28px rgba(0,0,0,.24);display:grid;grid-template-columns:2.6rem 1fr;grid-template-rows:1fr auto;column-gap:.55rem;align-items:center;transition:.2s ease;overflow:hidden}
+.platform-slide-card::after{content:"";position:absolute;inset:0;background:linear-gradient(120deg,transparent 35%,rgba(34,211,238,.07),transparent 68%);pointer-events:none}
+.platform-slide-card:hover,.platform-slide-card.is-active{border-color:rgba(70,209,255,.65);box-shadow:0 0 25px rgba(54,130,255,.13),inset 0 1px rgba(255,255,255,.1)}
+.platform-slide-logo{grid-row:1 / span 2;display:grid;place-items:center;width:2.6rem;height:2.6rem;border-radius:.75rem;background:rgba(255,255,255,.95);overflow:hidden;color:#17152b;font-size:1rem;font-weight:950}
+.platform-slide-logo img{width:100%;height:100%;object-fit:contain;padding:.22rem}
+.platform-slide-name{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:.72rem;font-weight:900;color:#fff}
+.platform-slide-card small{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:rgba(255,255,255,.35);font-size:.52rem}
+.platform-slide-arrow{position:absolute;right:.55rem;top:.45rem;color:#aeb5ff;font-size:.7rem}
+.platform-slider-arrow{position:absolute;z-index:5;top:50%;transform:translateY(-50%);display:grid;place-items:center;width:2.15rem;height:2.15rem;border:1px solid rgba(116,111,255,.25);border-radius:999px;background:rgba(18,18,55,.88);color:white;font-size:1.5rem;line-height:1;box-shadow:0 8px 25px rgba(0,0,0,.3);backdrop-filter:blur(12px)}
+.platform-slider-prev{left:.1rem}.platform-slider-next{right:.1rem}
+.platform-slider-arrow:hover{border-color:rgba(34,211,238,.65);background:rgba(31,27,83,.95)}
+.platform-slider-dots{display:flex;justify-content:center;gap:.42rem;margin-top:.55rem}
+.platform-slider-dots button{width:1.45rem;height:.28rem;border:0;border-radius:999px;background:rgba(91,122,184,.3);padding:0}
+.platform-slider-dots button.active{background:linear-gradient(90deg,#a855f7,#22d3ee);box-shadow:0 0 12px rgba(168,85,247,.4)}
+@media(max-width:900px){.platform-slider-track{grid-template-columns:repeat(3,minmax(0,1fr))}}
+@media(max-width:600px){
+  .platform-slider{padding:.6rem 1.25rem .4rem}
+  .platform-slider-head{margin-bottom:.55rem}
+  .platform-slider-title{gap:.55rem}
+  .platform-slider-title h2{font-size:.84rem}
+  .platform-slider-track{grid-template-columns:repeat(2,minmax(0,1fr));gap:.55rem}
+  .platform-slide-card{height:78px;padding:.55rem;grid-template-columns:2.35rem 1fr}
+  .platform-slide-logo{width:2.35rem;height:2.35rem}
+  .platform-slide-name{font-size:.67rem}
+  .platform-slide-card small{font-size:.49rem}
+  .platform-slider-arrow{width:1.9rem;height:1.9rem;font-size:1.3rem}
+}
