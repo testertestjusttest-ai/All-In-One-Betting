@@ -65,19 +65,34 @@ const STORAGE_KEY = "betbass-language";
 
 function applyTranslations(locale: Locale) {
   document.documentElement.lang = locale === "bn" ? "bn" : locale === "hi" ? "hi" : "en";
-  const map = translations[locale];
+  const maps = Object.values(translations) as Record<string, string>[];
+  const currentMap = translations[locale];
   const walker = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT);
   const nodes: Text[] = [];
   while (walker.nextNode()) {
     const node = walker.currentNode as Text;
     if (node.nodeValue?.trim()) nodes.push(node);
   }
+
   for (const node of nodes) {
     const raw = node.nodeValue || "";
     const leading = raw.match(/^\s*/)?.[0] || "";
     const trailing = raw.match(/\s*$/)?.[0] || "";
-    const key = raw.trim();
-    if (map[key]) node.nodeValue = leading + map[key] + trailing;
+    const value = raw.trim();
+
+    // Recover the original English key from whichever translated language
+    // is currently rendered, so switching BN ↔ HI ↔ EN always works.
+    let source = value;
+    for (const map of maps) {
+      const found = Object.keys(map).find((key) => map[key] === value);
+      if (found) {
+        source = found;
+        break;
+      }
+    }
+
+    const translated = currentMap[source] || source;
+    if (translated !== value) node.nodeValue = leading + translated + trailing;
   }
 }
 
