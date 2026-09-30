@@ -13,7 +13,7 @@ type Casino = {
   website_url?: string | null;
 };
 
-const SLIDER_SPEED = 0.010; // px/ms = 10px/sec
+const SLIDER_SPEED = 0.022; // px/ms = 22px/sec
 
 export default function PlatformSlider({ casinos }: { casinos: Casino[] }) {
   const items = casinos;
