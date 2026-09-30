@@ -547,6 +547,6 @@ a { text-decoration:none; }
 }
 
 
-/* PlatformSlider uses JS scroll timing so the requested 0.010 speed is authoritative. */
-.platform-slider .platform-track{animation:none!important;transform:none!important;will-change:scroll-position!important}
+/* Final platform slider: JS transform marquee at exactly 0.010px/ms. */
+.platform-slider .platform-track{animation:none!important;will-change:transform!important}
 @media(prefers-reduced-motion:reduce){.platform-slider .platform-track{animation:none!important}}
