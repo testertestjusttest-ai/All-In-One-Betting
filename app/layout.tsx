@@ -3,6 +3,7 @@ import Script from "next/script";
 import "./globals.css";
 import { SITE_URL } from "../lib/seo";
 import LanguageController from "./components/LanguageController";
+import PWAInstallPrompt from "./components/PWAInstallPrompt";
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
@@ -39,6 +40,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
       <body>
         {children}
         <LanguageController />
+        <PWAInstallPrompt />
         <Script id="betbass-sw-register" strategy="afterInteractive">{`
           if ("serviceWorker" in navigator) {
             window.addEventListener("load", function () {
