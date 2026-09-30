@@ -3,7 +3,7 @@ import type { Metadata } from "next";
 import { supabase } from "../../../lib/supabase";
 import MonetagAds from "../../components/MonetagAds";
 import AffiliateCTA from "../../components/AffiliateCTA";
-import { casinoLogoFallbackUrl, casinoLogoUrl, initials } from "../../../lib/casinoLogo";
+import { casinoLogoFallbackUrl, casinoLogoUrl, initials } from "../../lib/casinoLogo";
 
 const siteUrl = "https://betbass.vercel.app";
 
