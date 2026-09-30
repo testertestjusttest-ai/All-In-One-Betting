@@ -13,46 +13,69 @@ type Casino = {
   website_url?: string | null;
 };
 
+const SLIDER_SPEED = 0.010; // px/ms = 10px/sec
+
 export default function PlatformSlider({ casinos }: { casinos: Casino[] }) {
-  // Show every platform supplied by the directory, not only the first 12.
   const items = casinos;
   const viewportRef = useRef<HTMLDivElement | null>(null);
   const trackRef = useRef<HTMLDivElement | null>(null);
-  const [paused, setPaused] = useState(false);
+  const offsetRef = useRef(0);
+  const lastTimeRef = useRef(0);
+  const halfWidthRef = useRef(0);
   const [dragging, setDragging] = useState(false);
   const dragX = useRef(0);
 
   const loopItems = [...items, ...items];
 
+  const normalizeOffset = () => {
+    const half = halfWidthRef.current;
+    if (half <= 0) return;
+    let next = offsetRef.current % half;
+    if (next < 0) next += half;
+    offsetRef.current = next;
+  };
+
   useEffect(() => {
-    const viewport = viewportRef.current;
-    if (!viewport || items.length < 2) return;
+    const track = trackRef.current;
+    if (!track || items.length < 2) return;
+
+    const measure = () => {
+      halfWidthRef.current = track.scrollWidth / 2;
+      normalizeOffset();
+      track.style.transform = `translate3d(-${offsetRef.current}px, 0, 0)`;
+    };
+
+    measure();
+    const resizeObserver = typeof ResizeObserver !== "undefined" ? new ResizeObserver(measure) : null;
+    resizeObserver?.observe(track);
 
     let frame = 0;
-    let last = performance.now();
+    lastTimeRef.current = performance.now();
 
     const tick = (now: number) => {
-      const dt = Math.min(now - last, 40);
-      last = now;
+      const dt = Math.min(now - lastTimeRef.current, 40);
+      lastTimeRef.current = now;
 
-      if (!paused && !dragging) {
-        // Intentionally very slow: 0.010 px/ms.
-        viewport.scrollLeft += dt * 0.010;
-        const half = viewport.scrollWidth / 2;
-        if (half > 0 && viewport.scrollLeft >= half) viewport.scrollLeft -= half;
+      if (!dragging) {
+        offsetRef.current += dt * SLIDER_SPEED;
+        normalizeOffset();
+        track.style.transform = `translate3d(-${offsetRef.current}px, 0, 0)`;
       }
 
       frame = requestAnimationFrame(tick);
     };
 
     frame = requestAnimationFrame(tick);
-    return () => cancelAnimationFrame(frame);
-  }, [paused, dragging, items.length]);
+
+    return () => {
+      cancelAnimationFrame(frame);
+      resizeObserver?.disconnect();
+    };
+  }, [dragging, items.length]);
 
   if (!items.length) return null;
 
   const handlePointerDown = (event: React.PointerEvent<HTMLDivElement>) => {
-    setPaused(true);
     setDragging(true);
     dragX.current = event.clientX;
     event.currentTarget.setPointerCapture(event.pointerId);
@@ -62,31 +85,25 @@ export default function PlatformSlider({ casinos }: { casinos: Casino[] }) {
     if (!dragging) return;
     const dx = event.clientX - dragX.current;
     dragX.current = event.clientX;
-    const viewport = viewportRef.current;
-    if (viewport) {
-      viewport.scrollLeft -= dx;
-      const half = viewport.scrollWidth / 2;
-      if (half > 0) {
-        if (viewport.scrollLeft < 0) viewport.scrollLeft += half;
-        if (viewport.scrollLeft >= half) viewport.scrollLeft -= half;
-      }
-    }
+    offsetRef.current -= dx;
+    normalizeOffset();
+
+    const track = trackRef.current;
+    if (track) track.style.transform = `translate3d(-${offsetRef.current}px, 0, 0)`;
   };
 
   const handlePointerUp = (event: React.PointerEvent<HTMLDivElement>) => {
     setDragging(false);
-    setPaused(false);
     if (event.currentTarget.hasPointerCapture(event.pointerId)) {
       event.currentTarget.releasePointerCapture(event.pointerId);
     }
   };
 
   const moveBy = (direction: number) => {
-    const viewport = viewportRef.current;
-    if (!viewport) return;
-    setPaused(true);
-    viewport.scrollBy({ left: direction * 190, behavior: "smooth" });
-    window.setTimeout(() => setPaused(false), 500);
+    offsetRef.current -= direction * 190;
+    normalizeOffset();
+    const track = trackRef.current;
+    if (track) track.style.transform = `translate3d(-${offsetRef.current}px, 0, 0)`;
   };
 
   return (
@@ -114,7 +131,6 @@ export default function PlatformSlider({ casinos }: { casinos: Casino[] }) {
         <div ref={trackRef} className="platform-track">
           {loopItems.map((casino, index) => {
             const logoUrl = casinoLogoUrl(casino);
-            // Slider cards always open the BetBass profile. The profile CTA owns affiliate navigation.
             const href = casino.slug ? "/casinos/" + casino.slug : "#directory";
             return (
               <a
