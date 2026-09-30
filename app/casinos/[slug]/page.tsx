@@ -3,6 +3,7 @@ import type { Metadata } from "next";
 import { supabase } from "../../../lib/supabase";
 import MonetagAds from "../../components/MonetagAds";
 import AffiliateCTA from "../../components/AffiliateCTA";
+import { casinoLogoFallbackUrl, casinoLogoUrl, initials } from "../../../lib/casinoLogo";
 
 const siteUrl = "https://betbass.vercel.app";
 
@@ -14,7 +15,7 @@ async function getCasino(slug: string) {
 async function getRelated(casino: any) {
   const { data } = await supabase
     .from("betbass_casinos")
-    .select("id,name,slug,operator_type,short_description,priority,bangladesh_priority")
+    .select("id,name,slug,operator_type,short_description,priority,bangladesh_priority,logo_url,website_url")
     .eq("active", true)
     .neq("id", casino.id)
     .order("priority", { ascending: true })
