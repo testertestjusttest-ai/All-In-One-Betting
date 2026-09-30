@@ -545,3 +545,8 @@ a { text-decoration:none; }
     min-height:2.1em!important;
   }
 }
+
+
+/* PlatformSlider uses JS scroll timing so the requested 0.010 speed is authoritative. */
+.platform-slider .platform-track{animation:none!important;transform:none!important;will-change:scroll-position!important}
+@media(prefers-reduced-motion:reduce){.platform-slider .platform-track{animation:none!important}}
