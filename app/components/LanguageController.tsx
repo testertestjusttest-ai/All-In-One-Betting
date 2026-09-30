@@ -27,7 +27,7 @@ const translations: Record<Locale, Record<string, string>> = {
     "Sportsbooks":"স্পোর্টসবুক","Casino Bonuses":"ক্যাসিনো বোনাস","Betting Bonuses":"বেটিং বোনাস","All Countries":"সব দেশ",
     "GLOBAL GEO":"গ্লোবাল GEO","Explore by country":"দেশ অনুযায়ী দেখুন","View all countries →":"সব দেশ দেখুন →",
     "TRUST LAYER":"বিশ্বাসের স্তর","More than an affiliate link.":"শুধু একটি অ্যাফিলিয়েট লিংকের চেয়েও বেশি।",
-    "Read our methodology →":"আমাদের পদ্ধতি পড়ুন →","FAQ":"সাধারণ প্রশ্ন","BetBass FAQ":"BetBass সাধারণ প্রশ্ন",
+    "Read our methodology →":"আমাদের পদ্ধতি পড়ুন →","BetBass FAQ":"BetBass সাধারণ প্রশ্ন",
     "What is BetBass?":"BetBass কী?","How are bonus details handled?":"বোনাসের তথ্য কীভাবে পরিচালিত হয়?",
     "Does BetBass accept bets?":"BetBass কি বাজি গ্রহণ করে?","Are outbound links affiliate links?":"বাইরের লিংক কি অ্যাফিলিয়েট লিংক?",
     "About":"আমাদের সম্পর্কে","Privacy":"গোপনীয়তা","Terms":"শর্তাবলি","Responsible Gambling":"দায়িত্বশীল জুয়া",
