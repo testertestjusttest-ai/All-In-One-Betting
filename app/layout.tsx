@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Script from "next/script";
 import "./globals.css";
 import { SITE_URL } from "../lib/seo";
+import LanguageController from "./components/LanguageController";
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
@@ -37,6 +38,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
       </head>
       <body>
         {children}
+        <LanguageController />
         <Script id="betbass-sw-register" strategy="afterInteractive">{`
           if ("serviceWorker" in navigator) {
             window.addEventListener("load", function () {
