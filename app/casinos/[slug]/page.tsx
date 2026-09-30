@@ -52,7 +52,7 @@ export default async function CasinoPage({ params }: { params: Promise<{ slug: s
   if (!casino) notFound();
 
   const related = await getRelated(casino);
-  const logoUrl = casino.logo_url || (casino.website_url ? `https://www.google.com/s2/favicons?domain=${encodeURIComponent(new URL(casino.website_url).hostname.replace(/^www\./, ""))}&sz=128` : null);
+  const logoUrl = casinoLogoUrl(casino);
 
   const categories = casino.operator_type === "casino"
     ? [["Online Casinos", "/online-casinos"], ["Casino Bonuses", "/casino-bonuses"]]
