@@ -109,10 +109,6 @@ export default function PlatformSlider({ casinos }: { casinos: Casino[] }) {
         onPointerMove={handlePointerMove}
         onPointerUp={handlePointerUp}
         onPointerCancel={handlePointerUp}
-        onMouseEnter={() => setPaused(true)}
-        onMouseLeave={() => {
-          if (!dragging) setPaused(false);
-        }}
         aria-label="Swipe or drag to browse platforms"
       >
         <div ref={trackRef} className="platform-track">
