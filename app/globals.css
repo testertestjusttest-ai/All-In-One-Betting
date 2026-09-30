@@ -550,3 +550,21 @@ a { text-decoration:none; }
 /* Final platform slider: JS transform marquee at exactly 0.010px/ms. */
 .platform-slider .platform-track{animation:none!important;will-change:transform!important}
 @media(prefers-reduced-motion:reduce){.platform-slider .platform-track{animation:none!important}}
+
+
+/* Global BetBass language selector */
+.betbass-language-button{position:fixed;right:16px;bottom:16px;z-index:90;border:1px solid rgba(255,255,255,.14);background:rgba(10,8,25,.9);backdrop-filter:blur(16px);color:rgba(255,255,255,.82);border-radius:999px;padding:9px 14px;font-size:12px;font-weight:800;box-shadow:0 12px 35px rgba(0,0,0,.35);cursor:pointer}
+.betbass-language-button:hover{background:rgba(25,20,55,.96);color:#fff}
+.betbass-language-backdrop{position:fixed;inset:0;z-index:100;display:grid;place-items:center;padding:20px;background:rgba(2,2,10,.72);backdrop-filter:blur(12px)}
+.betbass-language-modal{width:min(440px,100%);border:1px solid rgba(168,85,247,.24);border-radius:28px;padding:28px;background:linear-gradient(145deg,rgba(25,20,58,.98),rgba(7,9,23,.98));box-shadow:0 35px 100px rgba(0,0,0,.55)}
+.betbass-language-kicker{font-size:10px;font-weight:900;letter-spacing:.25em;color:#a78bfa}
+.betbass-language-modal h2{margin:8px 0 0;font-size:28px;font-weight:900;color:#fff}
+.betbass-language-modal>p{margin:8px 0 20px;font-size:13px;line-height:1.6;color:rgba(255,255,255,.48)}
+.betbass-language-options{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.betbass-language-options button{border:1px solid rgba(255,255,255,.1);border-radius:18px;background:rgba(255,255,255,.04);padding:15px 10px;color:#fff;cursor:pointer;text-align:center}
+.betbass-language-options button.is-selected{border-color:rgba(34,211,238,.5);background:linear-gradient(145deg,rgba(124,58,237,.25),rgba(34,211,238,.08))}
+.betbass-language-options strong,.betbass-language-options span{display:block}
+.betbass-language-options strong{font-size:18px}
+.betbass-language-options span{margin-top:4px;font-size:10px;color:rgba(255,255,255,.42)}
+.betbass-language-continue{width:100%;margin-top:14px;border:0;border-radius:16px;padding:13px;background:linear-gradient(90deg,#7c3aed,#22d3ee);color:#fff;font-size:13px;font-weight:900;cursor:pointer}
+@media(max-width:520px){.betbass-language-button{right:12px;bottom:12px}.betbass-language-modal{padding:22px;border-radius:24px}.betbass-language-options{gap:7px}}
