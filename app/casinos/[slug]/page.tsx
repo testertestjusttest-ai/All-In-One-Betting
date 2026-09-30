@@ -85,23 +85,77 @@ export default async function CasinoPage({ params }: { params: Promise<{ slug: s
       <div className="mx-auto max-w-5xl">
         <a href="/" className="text-sm text-white/45 hover:text-white">← Back to BetBass</a>
 
-        <section className="mt-8 glass rounded-[2rem] p-7 md:p-10">
-          <div className="flex flex-col gap-6 md:flex-row md:items-start md:justify-between">
-            <div>
-              <p className="text-xs font-bold uppercase tracking-[.2em] text-violet-300">{casino.operator_type === "both" ? "Sportsbook + Casino" : casino.operator_type}</p>
-              <h1 className="mt-2 text-4xl font-black md:text-6xl">{casino.name}</h1>
-              <p className="mt-4 max-w-3xl text-lg text-white/55">{casino.short_description}</p>
-              <div className="mt-5 max-w-md">
-                <AffiliateCTA casinoId={casino.id} affiliateUrl={casino.affiliate_url} label="Join Now" />
+        <section className="mt-8 overflow-hidden rounded-[2rem] border border-violet-400/15 bg-[radial-gradient(circle_at_82%_15%,rgba(34,211,238,.11),transparent_28%),linear-gradient(145deg,rgba(24,20,58,.9),rgba(8,10,25,.92))] shadow-[0_30px_90px_rgba(0,0,0,.35)]">
+          <div className="relative p-5 md:p-8">
+            <div className="absolute right-0 top-0 h-40 w-40 rounded-full bg-violet-500/10 blur-3xl" aria-hidden="true" />
+            <div className="flex items-center justify-between gap-4">
+              <p className="text-[10px] font-black uppercase tracking-[.28em] text-violet-300">BETBASS PLATFORM PROFILE</p>
+              <span className="rounded-full border border-white/10 bg-white/5 px-3 py-1 text-[10px] font-bold uppercase tracking-wider text-white/45">
+                {casino.affiliate_url ? "Partner offer" : "Research profile"}
+              </span>
+            </div>
+
+            <div className="relative mt-6 grid gap-7 lg:grid-cols-[1fr_300px] lg:items-center">
+              <div>
+                <div className="flex items-start gap-4 md:gap-5">
+                  <div className="grid h-16 w-16 shrink-0 place-items-center overflow-hidden rounded-2xl border border-white/15 bg-white p-2 shadow-[0_12px_35px_rgba(0,0,0,.3)] md:h-20 md:w-20">
+                    {logoUrl ? (
+                      <img src={logoUrl} alt="" className="h-full w-full object-contain" loading="eager" referrerPolicy="no-referrer" />
+                    ) : (
+                      <span className="text-lg font-black text-slate-900">{String(casino.name || "BB").slice(0, 2).toUpperCase()}</span>
+                    )}
+                  </div>
+                  <div className="min-w-0">
+                    <p className="text-xs font-bold uppercase tracking-[.2em] text-violet-300">{casino.operator_type === "both" ? "Sportsbook + Casino" : casino.operator_type}</p>
+                    <h1 className="mt-1 text-4xl font-black tracking-tight md:text-6xl">{casino.name}</h1>
+                  </div>
+                </div>
+                <p className="mt-5 max-w-3xl text-base leading-7 text-white/55 md:text-lg">{casino.short_description}</p>
+
+                <div className="mt-5 flex flex-wrap gap-2">
+                  <span className="rounded-full border border-white/10 bg-white/5 px-3 py-1.5 text-[11px] font-bold text-white/55">Platform profile</span>
+                  {casino.website_url && <span className="rounded-full border border-white/10 bg-white/5 px-3 py-1.5 text-[11px] font-bold text-white/55">Website listed</span>}
+                  {casino.verified_at && <span className="rounded-full border border-cyan-300/15 bg-cyan-300/5 px-3 py-1.5 text-[11px] font-bold text-cyan-200/70">Verified data</span>}
+                </div>
+              </div>
+
+              <div className="relative rounded-3xl border border-white/10 bg-black/20 p-5 shadow-inner shadow-white/[.03]">
+                <p className="text-[10px] font-black uppercase tracking-[.2em] text-cyan-200/65">{casino.affiliate_url ? "Partner offer" : "Platform information"}</p>
+                <p className="mt-2 text-xl font-black text-white">{casino.affiliate_url ? "Ready to join?" : "Explore the profile"}</p>
+                <p className="mt-2 text-xs leading-5 text-white/40">
+                  {casino.affiliate_url
+                    ? "Use the official BetBass Join Now button to open the publisher referral offer."
+                    : "Review offers, payments, availability and licensing details below."}
+                </p>
+                {casino.affiliate_url ? (
+                  <div className="mt-1">
+                    <AffiliateCTA casinoId={casino.id} affiliateUrl={casino.affiliate_url} label="Join Now" />
+                  </div>
+                ) : (
+                  <div className="mt-4 rounded-2xl border border-dashed border-white/10 px-4 py-3 text-center text-[11px] font-semibold text-white/30">
+                    Join Now appears here when an affiliate/referral URL is configured in Admin.
+                  </div>
+                )}
               </div>
             </div>
-            {casino.public_rating != null && Number(casino.public_rating) > 0 && (
-              <div className="rounded-2xl border border-white/10 bg-white/5 px-5 py-4 text-center">
-                <p className="text-[10px] uppercase tracking-wider text-white/35">Public rating</p>
-                <p className="mt-1 text-2xl font-black text-yellow-200">★ {Number(casino.public_rating).toFixed(1)}<span className="text-sm text-white/35">/5</span></p>
-              </div>
-            )}
           </div>
+
+          {casino.public_rating != null && Number(casino.public_rating) > 0 && (
+            <div className="grid border-t border-white/8 bg-white/[.025] md:grid-cols-3">
+              <div className="px-5 py-4 md:border-r md:border-white/8">
+                <p className="text-[9px] font-bold uppercase tracking-[.2em] text-white/30">Public rating</p>
+                <p className="mt-1 text-xl font-black text-yellow-200">★ {Number(casino.public_rating).toFixed(1)}<span className="text-xs text-white/30">/5</span></p>
+              </div>
+              <div className="border-t border-white/8 px-5 py-4 md:border-t-0 md:border-r md:border-white/8">
+                <p className="text-[9px] font-bold uppercase tracking-[.2em] text-white/30">Directory status</p>
+                <p className="mt-1 text-sm font-bold text-white/70">Active profile</p>
+              </div>
+              <div className="border-t border-white/8 px-5 py-4 md:border-t-0">
+                <p className="text-[9px] font-bold uppercase tracking-[.2em] text-white/30">BetBass</p>
+                <p className="mt-1 text-sm font-bold text-white/70">Platform research</p>
+              </div>
+            </div>
+          )}
         </section>
 
         <MonetagAds placement="inline" />
