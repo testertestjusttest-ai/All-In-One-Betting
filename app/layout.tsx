@@ -18,7 +18,6 @@ export const metadata: Metadata = {
   robots: { index:true, follow:true, googleBot:{ index:true, follow:true, "max-image-preview":"large", "max-snippet":-1, "max-video-preview":-1 } },
   openGraph: { title:"BetBass — Betting & Casino Comparison Directory", description:"Compare betting sites, online casinos, sportsbook platforms, offers, payments and GEO availability.", type:"website", siteName:"BetBass", url:SITE_URL, locale:"en_US" },
   twitter: { card:"summary_large_image", title:"BetBass — Betting & Casino Comparison Directory", description:"Compare betting sites, online casinos, sportsbook platforms and offers." },
-  icons: { icon:"/icon.svg", shortcut:"/icon.svg", apple:"/icon.svg" },
 };
 
 const organizationJsonLd = { "@context":"https://schema.org", "@type":"Organization", name:"BetBass", url:SITE_URL, description:"Betting and casino comparison and affiliate directory." };
